@@ -5,9 +5,9 @@
 4. **以下项目已经全部升级支持Qt4.7到Qt6.2所有版本以及后续版本**
 5. 监控作品体验：[https://pan.baidu.com/s/1d7TH_GEYl5nOecuNlWJJ7g](https://pan.baidu.com/s/1d7TH_GEYl5nOecuNlWJJ7g) 提取码：01jf
 6. 其他作品体验：[https://pan.baidu.com/s/1ZxG-oyUKe286LPMPxOrO2A](https://pan.baidu.com/s/1ZxG-oyUKe286LPMPxOrO2A) 提取码：o05q
-7. 自定义控件网页版：[https://feiyangqingyun.gitee.io/QWidgetDemo/](https://feiyangqingyun.gitee.io/QWidgetDemo/)
-8. 视频监控在线文档：[https://feiyangqingyun.gitee.io/QWidgetDemo/video_system/](https://feiyangqingyun.gitee.io/QWidgetDemo/video_system/)
-9. 大屏系统在线文档：[https://feiyangqingyun.gitee.io/QWidgetDemo/bigscreen/](https://feiyangqingyun.gitee.io/QWidgetDemo/bigscreen/)
+7. 自定义控件网页版：[https://feiyangqingyun.github.io/QWidgetDemo/](https://feiyangqingyun.github.io/QWidgetDemo/)
+8. 视频监控在线文档：[https://feiyangqingyun.github.io/QWidgetDemo/video_system/](https://feiyangqingyun.github.io/QWidgetDemo/video_system/)
+9. 大屏系统在线文档：[https://feiyangqingyun.github.io/QWidgetDemo/bigscreen/](https://feiyangqingyun.github.io/QWidgetDemo/bigscreen/)
 
 ## 1 视频监控系统
 ### 1.1 软件模块
@@ -65,7 +65,7 @@
 17. 注释完整，项目结构清晰，超级详细完整的使用开发手册，精确到每个代码文件的功能说明，不断持续迭代版本。
 
 ### 1.4 效果图
-![avatar](https://gitee.com/feiyangqingyun/QWidgetExe2/raw/master/snap_video_system/0.gif)
+![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_video_system/0.gif)
 
 ## 2 可视化大屏电子看板系统
 ### 2.1 功能特点
@@ -102,10 +102,10 @@
 31. 非常详细的开发和使用手册，其中包括数据库说明、模块对照图、控件对照图、项目结构、代码说明（精确到每个类）、演示demo、使用方法等。
 
 ### 2.2 效果图
-![avatar](https://gitee.com/feiyangqingyun/QWidgetExe2/raw/master/snap_bigscreen/0.gif)
-![avatar](https://gitee.com/feiyangqingyun/QWidgetExe2/raw/master/snap_bigscreen/1.gif)
-![avatar](https://gitee.com/feiyangqingyun/QWidgetExe2/raw/master/snap_bigscreen/2.gif)
-![avatar](https://gitee.com/feiyangqingyun/QWidgetExe2/raw/master/snap_bigscreen/3.gif)
+![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_bigscreen/0.gif)
+![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_bigscreen/1.gif)
+![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_bigscreen/2.gif)
+![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_bigscreen/3.gif)
 
 ## 3 智能安防集中管理平台
 ### 3.1 功能特点
@@ -131,12 +131,12 @@
 20. 纯Qt编写，支持任意Qt版本+任意编译器+任意系统，可运行在windws XP、win7、win8、win10、linux、mac OS、嵌入式linux等系统。
 
 ### 3.2 效果图
-![avatar](https://gitee.com/feiyangqingyun/QWidgetExe2/raw/master/snap_TB/0.jpg)
-![avatar](https://gitee.com/feiyangqingyun/QWidgetExe2/raw/master/snap_TB/1.jpg)
-![avatar](https://gitee.com/feiyangqingyun/QWidgetExe2/raw/master/snap_TB/2.jpg)
-![avatar](https://gitee.com/feiyangqingyun/QWidgetExe2/raw/master/snap_TB/3.jpg)
-![avatar](https://gitee.com/feiyangqingyun/QWidgetExe2/raw/master/snap_TB/4.jpg)
-![avatar](https://gitee.com/feiyangqingyun/QWidgetExe2/raw/master/snap_TB/5.jpg)
+![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_TB/0.jpg)
+![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_TB/1.jpg)
+![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_TB/2.jpg)
+![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_TB/3.jpg)
+![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_TB/4.jpg)
+![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_TB/5.jpg)
 
 ## 4 物联网综合管理平台
 ### 4.1 功能特点
@@ -170,4 +170,4 @@
 28. 支持所有windows操作系统+linux操作系统和其他操作系统。
 
 ### 4.2 效果图
-![avatar](https://gitee.com/feiyangqingyun/QWidgetExe2/raw/master/snap_sams/sams.gif)
+![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_sams/sams.gif)
