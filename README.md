@@ -1,17 +1,15 @@
 ﻿
-﻿﻿## 0 前言说明
+## 0 前言说明﻿﻿
 1. **下载说明：由于可执行文件比较大，如有需要请到网盘下载。**
 2. **网店地址：https://shop244026315.taobao.com/**
 3. **联系方式：QQ（517216493）微信（feiyangqingyun）推荐加微信。**
-4. **以下项目已经全部升级支持Qt4.7到Qt6.2所有版本以及后续版本**
+4. **以下项目已经全部升级支持Qt4.7到Qt6.4所有版本以及后续版本**
 5. 监控作品体验：[https://pan.baidu.com/s/1d7TH_GEYl5nOecuNlWJJ7g](https://pan.baidu.com/s/1d7TH_GEYl5nOecuNlWJJ7g) 提取码：01jf
 6. 其他作品体验：[https://pan.baidu.com/s/1ZxG-oyUKe286LPMPxOrO2A](https://pan.baidu.com/s/1ZxG-oyUKe286LPMPxOrO2A) 提取码：o05q
-7. 自定义控件网页版：[https://feiyangqingyun.github.io/QWidgetDemo/](https://feiyangqingyun.github.io/QWidgetDemo/)
-8. 视频监控在线文档：[https://feiyangqingyun.github.io/QWidgetDemo/video_system/](https://feiyangqingyun.github.io/QWidgetDemo/video_system/)
-9. 大屏系统在线文档：[https://feiyangqingyun.github.io/QWidgetDemo/bigscreen/](https://feiyangqingyun.github.io/QWidgetDemo/bigscreen/)
-10. 物联网系统在线文档：[https://feiyangqingyun.github.io/QWidgetDemo/iotsystem/](https://feiyangqingyun.github.io/QWidgetDemo//iotsystem/)
 
 ## 1 视频监控系统
+在线文档：[https://github.com/feiyangqingyun/QWidgetExe2/blob/master/snap_video_system/readme.md](https://github.com/feiyangqingyun/QWidgetExe2/blob/master/snap_video_system/readme.md)
+
 ### 1.1 软件模块
 1. 视频监控模块，各种停靠小窗体子模块，包括设备列表、图文警情、窗口信息、云台控制、预置位、巡航设置、设备控制、悬浮地图、网页浏览等。
 2. 视频回放模块，包括本地回放、远程回放、设备播放、图片回放、视频上传等。
@@ -70,6 +68,8 @@
 ![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_video_system/0.gif)
 
 ## 2 可视化大屏电子看板系统
+在线文档：[https://github.com/feiyangqingyun/QWidgetExe2/blob/master/snap_bigscreen/readme.md](https://github.com/feiyangqingyun/QWidgetExe2/blob/master/snap_bigscreen/readme.md)
+
 ### 2.1 功能特点
 1. 采用分层设计，整体总共分三级界面，一级界面是整体布局，二级界面是单个功能模块，三级界面是单个控件。
 2. 子控件包括饼图、圆环图、曲线图、柱状图、柱状分组图、横向柱状图、横向柱状分组图、合格率控件、百分比控件、进度控件、设备状态面板、表格数据、地图控件、视频控件等。
@@ -141,6 +141,8 @@
 ![avatar](https://github.com/feiyangqingyun/QWidgetExe2/raw/master/snap_TB/5.jpg)
 
 ## 4 物联网综合管理平台
+在线文档：[https://github.com/feiyangqingyun/QWidgetExe2/blob/master/snap_iotsystem/readme.md](https://github.com/feiyangqingyun/QWidgetExe2/blob/master/snap_iotsystem/readme.md)
+
 ### 4.1 软件模块
 1. 设备监控模块，包括数据监控（表格形式展示）、设备面板（面板形式展示）、地图监控（地图形式展示）、曲线监控（曲线形式展示）。
 2. 数据查询模块，包括报警记录、运行记录、操作记录。
