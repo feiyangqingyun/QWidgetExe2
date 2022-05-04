@@ -65,13 +65,14 @@
 23. 注释完整，项目结构清晰，超级详细完整的使用开发手册，精确到每个代码文件的功能说明，不断持续迭代版本。
 
 ### 0.3 相关站点
-1. 国内站点：https://gitee.com/feiyangqingyun
-2. 国际站点：https://github.com/feiyangqingyun
-3. 个人主页：https://blog.csdn.net/feiyangqingyun
-4. 知乎主页：https://www.zhihu.com/people/feiyangqingyun
-5. 产品主页：https://blog.csdn.net/feiyangqingyun/article/details/97565652
-6. 在线文档：https://feiyangqingyun.gitee.io/qwidgetdemo/iotsystem
-7. 体验地址：https://pan.baidu.com/s/1ZxG-oyUKe286LPMPxOrO2A 提取码：o05q 文件名：bin_iotsystem.zip。
+1. 国内站点：[https://gitee.com/feiyangqingyun](https://gitee.com/feiyangqingyun)
+2. 国际站点：[https://github.com/feiyangqingyun](https://github.com/feiyangqingyun)
+3. 个人主页：[https://blog.csdn.net/feiyangqingyun](https://blog.csdn.net/feiyangqingyun)
+4. 知乎主页：[https://www.zhihu.com/people/feiyangqingyun](https://www.zhihu.com/people/feiyangqingyun)
+5. 产品主页：[https://blog.csdn.net/feiyangqingyun/article/details/97565652](https://blog.csdn.net/feiyangqingyun/article/details/97565652)
+6. 在线文档：[https://feiyangqingyun.gitee.io/qwidgetdemo/iotsystem/](https://feiyangqingyun.gitee.io/qwidgetdemo/iotsystem/)
+7. 体验地址：[https://pan.baidu.com/s/1ZxG-oyUKe286LPMPxOrO2A](https://pan.baidu.com/s/1ZxG-oyUKe286LPMPxOrO2A) 提取码：o05q 文件名：bin_iotsystem.zip。
+8. 文章导航：[https://qtchina.blog.csdn.net/article/details/121330922](https://qtchina.blog.csdn.net/article/details/121330922)
 
 ### 0.4 特别说明
 1. 主界面顶部为一级菜单导航，单击切换页面，软件的左侧为二级菜单导航。
@@ -127,11 +128,11 @@
 ## 1 用户登录退出
 ### 1.1 用户登录
  ![](snap/1-1-1.jpg)   ![](snap/1-1-2.jpg)
-系统启动后，首先会弹出操作员登录界面，从操作员姓名的下拉框选择用户名，然后输入密码，（默认用户名密码都是admin）单击登录按钮，密码正确则会进入到系统主界面，错误会弹出提示，超过三次自动关闭，需要重新打开软件。在登录界面可以勾选是否记住密码，是否自动登录，如果勾选了记住密码，则下次启用软件会自动填入最后操作员的密码，勾选了自动登录则启动后直接进入主界面。默认开启了自动登录，不会弹出登录界面。
+　　系统启动后，首先会弹出操作员登录界面，从操作员姓名的下拉框选择用户名，然后输入密码，（默认用户名密码都是admin）单击登录按钮，密码正确则会进入到系统主界面，错误会弹出提示，超过三次自动关闭，需要重新打开软件。在登录界面可以勾选是否记住密码，是否自动登录，如果勾选了记住密码，则下次启用软件会自动填入最后操作员的密码，勾选了自动登录则启动后直接进入主界面。默认开启了自动登录，不会弹出登录界面。
 
 ### 1.2 用户退出
  ![](snap/1-2-1.jpg)
-在主界面单击右上角的关闭按钮，会弹出操作员退出界面，需要输入密码验证防止误关闭，会自动填入登录的用户名，密码输入正确才会退出软件。
+　　在主界面单击右上角的关闭按钮，会弹出操作员退出界面，需要输入密码验证防止误关闭，会自动填入登录的用户名，密码输入正确才会退出软件。
 
 
 ## 2 系统设置
@@ -322,7 +323,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 5. 波 特 率：串口通信使用的波特率。
 6. IP 地 址：设备的IP地址。
 7. 通讯端口：该设备网络通信所使用的端口，默认502，即modbus通信的端口。
-8. 采集周期：该通讯处理中对每个控制器轮询的间隔时间。单位秒。
+8. 采集周期：该通讯处理中对每个控制器轮询的间隔时间。单位秒，如果要0.2s=200毫秒则填0.2即可，默认浮点数处理。
 9. 通讯超时：该通讯处理中大于几次未收到回应消息则判断为离线，默认3次。
 10. 重连时间：如果某个设备离线状态，最大多长时间重新读取一次，默认60秒。
 
