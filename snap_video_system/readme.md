@@ -212,6 +212,7 @@ https://pan.baidu.com/s/13LDRu6mXC6gaADtrGprNVA  提取码: ujm7。
 11. 增加用户管理权限。
 12. 将用户权限和用户信息相关类合并到通用的类userhelper中，做成通用的权限组件。
 13. 修复Qt6中自定义复选框委托，在设置了全局样式的情况下，会不断切换选中的BUG。
+14. 效果图重新截图，用最新的运行界面。
 
 **V20220106**
 1. 彻底修复全屏模式+webengine同时存在的情况下鼠标右键菜单无法弹出以及视频可能黑屏的BUG，这是Qt的BUG。
@@ -470,9 +471,10 @@ void QUIStyle::getStyle(QStringList &styleNames, QStringList &styleFiles)
  ![](snap/2-0-1.jpg)
  ![](snap/2-0-2.jpg)
 
-主界面由左侧的设备列表、窗口信息，中间的视频监控画面，底部的画面切换和快捷操作按钮，右侧的云台控制及其他操作功能面板组成，其中左右两侧的面板可以拉伸宽度，上下面板之间也可以拉伸高度，每个带关闭按钮的面板都可以关闭。
+主界面由顶部主菜单导航、左侧右侧停靠窗体（设备列表、窗口信息、图文警情、悬浮地图、云台控制、设备控制、预置巡航、视频轮询等）、中间视频监控主画面组成，其中左右两侧的停靠窗体可以拉伸宽度，上下停靠窗体之间也可以拉伸高度，每个停靠窗体都可以关闭和悬浮。自动保存布局文件，下次启动自动应用。
 
 **新增说明**
+
 - 2021-5-8，主界面改成了停靠窗体模式。
 - 拓展性更强，可以任意组合多种子模块。
 - 模块可停靠悬浮。
@@ -515,6 +517,7 @@ void QUIStyle::getStyle(QStringList &styleNames, QStringList &styleFiles)
 
 ### 2.5 删除视频
  ![](snap/2-5-1.jpg)
+ ![](snap/2-5-2.jpg)
 
 有多种方法可以删除视频：
 
@@ -544,16 +547,27 @@ void QUIStyle::getStyle(QStringList &styleNames, QStringList &styleFiles)
 ### 2.8 视频轮询
  ![](snap/2-8-1.jpg)
 
-视频轮询默认4画面轮询，如果需要其他画面，可以在系统设置中设置即可。
-有两种方式可以启动视频轮询功能：
-
-1. 鼠标右键启动轮询。
-2. 画面右下角轮询按钮。
+**功能说明**
+1. 开启是否一运行自动轮询。
+2. 可设置轮询间隔，比如5s、10s、30s、60s等。
+3. 可设置轮询画面类型，比如1画面、4画面、9画面、16画面。
+4. 可选择切换不同的轮询方案。
+5. 开始轮询和停止轮询。
+6. 暂停轮询和继续轮询。
 
 ### 2.9 通道交换
  ![](snap/2-9-1.jpg)
 
 通道交换功能很常用，一般用户喜欢调整自己想要的通道显示到前面或者占据画面的更大部分，比如6画面8画面的时候，左侧有一个画面占据很大的位置，一般这个用来显示重要性最高的实时视频，如果需要通道交换，则按住通道拖动到另外一个通道上面松开鼠标即可，会立即应用，瞬间切换，这里切记不要移出视频画面外，移出去表示删除。
+
+本系统也封装了代码中动态控制切换和动态交换，具体代码在DeviceThreadUI类中，具体全局函数在AppEvent类中。
+```cpp
+//指定通道显示视频 id从0开始
+void slot_loadVideo(int channel, int ipcID);
+void slot_loadVideo(int channel, const QString &url);
+//通道交换
+void slot_changeVideo(int channel1, int channel2);
+```
 
 ### 2.10 云台控制
  ![](snap/2-10-1.jpg)
@@ -629,7 +643,7 @@ enum OSDPosition {
 本地回放模块主要用来回放存储在本地电脑上的视频，先从右侧选择要回放的通道，默认是所有通道，然后选择类型：存储视频还是报警视频，默认选择存储视频（目前也只有存储的视频，没有报警视频，报警视频的规则还没定好，一般都是买过去自己定义），然后选择要查询的开始时间和结束时间，单击查询按钮，会自动列出来，双击对应的视频文件名称就会播放，除了查询按钮，其余按钮均没有实现具体功能。
 
 #### 3.1.2 存储规则
- ![](snap/3-1-2-1.jpg)
+ ![](snap/3-1-2.jpg)
 
 1. 默认存储主目录 video_normal。
 2. 主目录下按照日期目录存放 比如 2021-04-07 2021-04-08。
@@ -637,7 +651,7 @@ enum OSDPosition {
 4. 拓展功能可以存储对应的数据文件比如经纬度数据和视频文件一个目录 名称一样 拓展名可以是 txt。
 
 #### 3.1.3 视频下载
- ![](snap/3-1-3-1.jpg)
+ ![](snap/3-1-3.jpg)
 
 视频下载是将查询出来的视频文件，按照勾选了的文件保存到选择的目录中。
 
@@ -653,12 +667,12 @@ enum OSDPosition {
 
 ### 3.4 图片回放
 #### 3.4.1 图片查询
- ![](snap/3-4-1-1.jpg)
+ ![](snap/3-4-1.jpg)
 
 选择设备通道和时间范围，单击查询按钮，会将查询到的图片序列按照日期的形式作为一行添加到列表结果中，双击可以自动播放，可以调节播放速度。
 
 #### 3.4.2 存储规则
- ![](snap/3-4-2-1.jpg)
+ ![](snap/3-4-2.jpg)
 
 1. 默认存储主目录 image_normal。
 2. 主目录下按照日期目录存放 比如 2021-04-07 2021-04-08。
@@ -666,12 +680,12 @@ enum OSDPosition {
 4. 拓展功能可以存储对应的数据文件比如警情文字和图片文件一个目录 名称一样 拓展名可以是 txt。
 
 #### 3.4.3 图片下载
- ![](snap/3-4-3-1.jpg)
+ ![](snap/3-4-3.jpg)
 
 将勾选的图片序列文件，导出到选择的目录。
 
 #### 3.4.4 导出报告
- ![](snap/3-4-4-1.jpg)
+ ![](snap/3-4-4.jpg)
 
 图文混排，可以自定义信息，封装好的类，传入图片队列，图片自适应等比例缩放显示，超过自动分页。
 
@@ -758,6 +772,8 @@ https://blog.csdn.net/feiyangqingyun/article/details/104005917
 14. 支持任意Qt版本、任意系统、任意编译器。
 
 ### 4.5 路径规划
+ ![](snap/4-5-1.jpg)
+
 **基本步骤**
 1. 输入起点坐标和终点坐标，也可以勾选地图选点，开启后直接在左侧的地图界面鼠标按下自动识别对应的经纬度坐标填入，单选框勾选的起点则填入起点坐标输入框中，勾选的终点就填入终点坐标输入框中。
 2. 选择路线方式，可选公交、驾车、步行、骑行等方式，默认选择步行。
@@ -766,12 +782,6 @@ https://blog.csdn.net/feiyangqingyun/article/details/104005917
 5. 单击查询路线，自动返回对应路径的所有经纬度坐标。
 6. 单击帅选数据，按照填入的关键点数进行数据帅选，在下方可以看到原始数据和最终数据，选中某个数据，自动在左侧生成点预览对应的位置。
 7. 单击模拟轨迹，会启动定时器，从第一个数据点开始，自动移动设备比如机器人、飞行器等，查看整个轨迹点路径是否正确。
-
- ![](snap/4-5-1.jpg)
- ![](snap/4-5-2.jpg)
- ![](snap/4-5-3.jpg)
- ![](snap/4-5-4.jpg)
-
 
 ## 5 日志查询
 ### 5.1 本地日志
@@ -791,27 +801,24 @@ https://blog.csdn.net/feiyangqingyun/article/details/104005917
 - 可以快速切换到第一页、末一页、上一页、下一页、显示的页码切换、指定的页码切换。
 
 #### 5.1.2 打印记录
- ![](snap/5-1-2-1.jpg)
+ ![](snap/5-1-2.jpg)
 
 单击打印按钮，会将当前查询的记录打印出来，自动分页。打印前会弹出打印预览对话框，可以最后在这里调整边距、纸张等设置参数。
 
 #### 5.1.3 导出记录到xls
- ![](snap/5-1-3-1.jpg)
+ ![](snap/5-1-3.jpg)
 
 单击XLS按钮可以将表格中的内容导出到excel表格，独创的excel导出数据算法，极速导出，支持任意系统，无依赖。
 
 #### 5.1.4 导出记录到pdf
- ![](snap/5-1-4-1.jpg)
+ ![](snap/5-1-4.jpg)
 
 #### 5.1.5 删除记录
- ![](snap/5-1-5-1.jpg)
+ ![](snap/5-1-5.jpg)
 
 单击删除按钮，会弹出时间范围选择对话框，选择要删除的记录的开始时间和结束时间，单击确定，会将该时间段内的记录全部删除，结束时间必须大于开始时间。
 
 #### 5.1.6 清空记录
- ![](snap/5-1-6-1.jpg)
- ![](snap/5-1-6-2.jpg)
-
 单击清空按钮会先弹出询问框提示是否需要清空数据，单击确定则自动清空所有的记录，清空后不能恢复。
 
 
@@ -823,10 +830,10 @@ https://blog.csdn.net/feiyangqingyun/article/details/104005917
 
 ## 6 系统设置
 ### 6.1 基本设置
- ![](snap/6-1-1.jpg)
+ ![](snap/6-1-0.jpg)
 
 #### 6.1.1 常规设置
- ![](snap/6-1-1-1.jpg)
+ ![](snap/6-1-1.jpg)
 
 基本设置中有部分参数的切换会自动重启应用。
 
@@ -854,7 +861,7 @@ https://blog.csdn.net/feiyangqingyun/article/details/104005917
 21. 透明度值：停靠窗体的透明度值，可调节，动态应用。
 
 #### 6.1.2 视频参数
- ![](snap/6-1-2-1.jpg)
+ ![](snap/6-1-2.jpg)
 
 **参数说明**
 1. 保存视频：开启以后打开视频自动存储录像文件，目录在可执行文件video_normal。
@@ -874,7 +881,7 @@ https://blog.csdn.net/feiyangqingyun/article/details/104005917
 15. 自动校时：开启后摄像机上线立即同步本地时间到摄像机。
 
 #### 6.1.3 数据库设置
- ![](snap/6-1-3-1.jpg)
+ ![](snap/6-1-3.jpg)
 
 **参数说明**
 1. 远程同步：开启后将会启用云端数据同步功能，将本地数据实时同步到远程数据库中。
@@ -937,7 +944,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 ```
 
 #### 6.1.4 地图配置
- ![](snap/6-1-4-1.jpg)
+ ![](snap/6-1-4.jpg)
 
 **参数说明**
 1. 地图秘钥：对应百度地图的秘钥，默认内置的作者的秘钥，很多软件系统都用的这个秘钥，用户数较多，可能有并发限制，为了不影响体验，强烈建议改成自己的，可以自行去官网申请，免费。
@@ -945,7 +952,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 3. 地图级别：默认地图打开以后的缩放级别。
 
 #### 6.1.5 功能激活
- ![](snap/6-1-5-1.jpg)
+ ![](snap/6-1-5.jpg)
 
 **参数说明**
 - 勾选则表示启用。
@@ -955,20 +962,9 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 - 多个子界面模块也可以选择显示或者隐藏，以便将不需要的模块隐藏掉，碍眼。
 
 #### 6.1.6 颜色配置
- ![](snap/6-1-6-1.jpg)
+ ![](snap/6-1-6.jpg)
 
 可以设置不同的场景不同的颜色，比如正常的系统消息显示白色，异常消息红色。
-
-#### 6.1.7 串口配置
- ![](snap/6-1-7-1.jpg)
-
-系统中可能用到了多个串口通信，可以在这里选择对应的串口号和波特率。
-
-#### 6.1.8 网络配置
- ![](snap/6-1-8-1.jpg)
-
-系统中可能用到多种网络通信，比如软件主动连接服务器，需要填写TCP地址和端口，也可能软件作为服务端，填写TCP或者UDP监听端口。
-
 
 ### 6.2 录像机管理
  ![](snap/6-2-1.jpg)
@@ -1001,12 +997,12 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 单击导出按钮，将表格数据导出到csv格式的文件，用户可以打开文件编辑，然后再次导入，这样可以作为简易的备份机制使用，也可将繁琐的基础数据录入交给小姑娘去做。　　
 
 #### 6.2.6 录像机信息打印
- ![](snap/6-2-6-1.jpg)
+ ![](snap/6-2-6.jpg)
 
 单击打印按钮可以将表格中的内容打印出来，打印前会弹出打印预览界面，可以自行做边距的调整等，可以查看等待打印的内容，翻页切换。
 
 #### 6.2.7 导出到Excel
- ![](snap/6-2-7-1.jpg)
+ ![](snap/6-2-7.jpg)
 
 单击导出按钮可以将表格中的内容导出到excel表格，独创的excel导出数据算法，极速导出，支持任意系统，无依赖。
 
@@ -1045,20 +1041,19 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 单击导出按钮，将表格数据导出到csv格式的文件，用户可以打开文件编辑，然后再次导入，这样可以作为简易的备份机制使用，也可将繁琐的基础数据录入交给小姑娘去做。
 
 #### 6.3.6 摄像机信息打印
- ![](snap/6-3-6-1.jpg)
+ ![](snap/6-3-6.jpg)
 
 单击打印按钮可以将表格中的内容打印出来，打印前会弹出打印预览界面，可以自行做边距的调整等，可以查看等待打印的内容，翻页切换。
 
 #### 6.3.7 导出到Excel
- ![](snap/6-3-7-1.jpg)
+ ![](snap/6-3-7.jpg)
 
 单击导出按钮可以将表格中的内容导出到excel表格，独创的excel导出数据算法，极速导出，支持任意系统，无依赖。
 
 #### 6.3.8 设备搜索
- ![](snap/6-3-8-1.jpg)
- ![](snap/6-3-8-2.jpg)
+ ![](snap/6-3-8.jpg)
 
-如果摄像机已经添加过，则搜索出来的摄像机信息行背后颜色突出显示并且不可选中。
+如果摄像机已经添加过，则搜索出来的摄像机对应行禁用不可选中。
 
 **基本步骤**
 - 第一步：单击广播搜索按钮，搜索到的设备会显示在左侧表格中。
@@ -1074,8 +1069,6 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 5. 一台电脑可能多个网卡和IP网段，可以选择不同的网卡进行搜索。
 6. 录像机信息和摄像机信息的更改，是自动应用的，无需重启。
 7. 搜索后的设备信息自动添加到表格中，按照IP地址升序排序，支持跨网段排序，自动将IP地址转为quint32整型进行排序，而不是取IP地址末尾。
-
- ![](snap/6-3-8-3.jpg)
 
 **参数说明**
 1. 用户姓名：onvif用户的名称，默认admin。
@@ -1126,7 +1119,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 单击导出按钮可以将表格中的内容导出到excel表格，独创的excel导出数据算法，极速导出，支持任意系统，无依赖。
 
 #### 6.4.8 参数设置
- ![](snap/6-4-8-1.jpg)
+ ![](snap/6-4-8.jpg)
 
 **参数说明**
 1. 自动轮询：开启以后，启动软件后自动轮询。
@@ -1135,9 +1128,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 4. 码流类型：默认子码流，超过4画面建议子码流。
 
 #### 6.4.9 批量生成
- ![](snap/6-4-9-1.jpg)
- ![](snap/6-4-9-2.jpg)
- ![](snap/6-4-9-3.jpg)
+ ![](snap/6-4-9.jpg)
 
 轮询表信息可以通过已添加的摄像机信息表选中添加，也可以自定义规则批量生成视频流地址添加，这种应用场景非常多，比如现场是某一种品牌的摄像机，视频流格式固定，只需要设置好主码流子码流的视频流格式，便可批量生成。
 
@@ -1147,7 +1138,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 3. 地址格式：可选各种厂家类型，还可选择文件，这个用于测试软件非常有用。
 
 #### 6.4.10 分组设置
- ![](snap/6-4-10-1.jpg)
+ ![](snap/6-4-10.jpg)
 
 可添加、删除、修改、清空轮询分组名称，相当于轮询预案。
 
@@ -1173,11 +1164,11 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 单击导出按钮，将表格数据导出到csv格式的文件，用户可以打开文件编辑，然后再次导入，这样可以作为简易的备份机制使用，也可将繁琐的基础数据录入交给小姑娘去做。
 
 #### 6.5.6 用户信息打印
- ![](snap/6-5-6-1.jpg)
+ ![](snap/6-5-6.jpg)
 单击打印按钮可以将表格中的内容打印出来，打印前会弹出打印预览界面，可以自行做边距的调整等，可以查看等待打印的内容，翻页切换。
 
 #### 6.5.7 导出到Excel
- ![](snap/6-5-7-1.jpg)
+ ![](snap/6-5-7.jpg)
 单击导出按钮可以将表格中的内容导出到excel表格，独创的excel导出数据算法，极速导出，支持任意系统，无依赖。
 
 #### 6.5.8 权限验证
@@ -1185,6 +1176,21 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
  ![](snap/6-5-8-2.jpg)
 
 假设设置了用户没有退出系统和电子地图的权限，则关闭系统的时候会弹出错误信息提示当前用户没有权限。
+
+### 6.6 其他设置
+ ![](snap/6-6-0.jpg)
+
+其他设置里面的内容之前在基本设置中，现在重新开一个窗体，因为后面可能还有各种各样的设置，预留空间。
+
+#### 6.6.1 串口配置
+ ![](snap/6-6-1.jpg)
+
+系统中可能用到了多个串口通信，可以在这里选择对应的串口号和波特率。
+
+#### 6.6.2 网络配置
+ ![](snap/6-6-2.jpg)
+
+系统中可能用到多种网络通信，比如软件主动连接服务器，需要填写TCP地址和端口，也可能软件作为服务端，填写TCP或者UDP监听端口。
 
 ## 7 简易使用步骤
 ### 7.1 添加摄像机
@@ -1225,7 +1231,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 
 ### 8.1 模块-onvif
 #### 8.1.1 效果图
- ![](snap/8-1-1-1.jpg)
+ ![](snap/8-1-1.jpg)
 
 #### 8.1.2 功能介绍
 1. 广播搜索设备，支持IPC和NVR，依次返回，可选择不同的网卡IP。
@@ -1280,7 +1286,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 
 ### 8.2 内核-ffmpeg
 #### 8.2.1 效果图
- ![](snap/8-2-1-1.jpg)
+ ![](snap/8-2-1.jpg)
 
 #### 8.2.2 功能介绍
 1. 多线程实时播放视频流+本地视频+USB摄像头等。
@@ -1311,7 +1317,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 
 ### 8.3 内核-vlc
 #### 8.3.1 效果图
- ![](snap/8-3-1-1.jpg)
+ ![](snap/8-3-1.jpg)
 
 #### 8.3.2 功能介绍
 1. 多线程实时播放视频流+本地视频+USB摄像头等。
@@ -1336,7 +1342,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 ### 8.4 内核-mpv
 不自带，需要额外购买此模块。
 #### 8.4.1 效果图
- ![](snap/8-4-1-1.jpg)
+ ![](snap/8-4-1.jpg)
 
 #### 8.4.2 功能介绍
 1. 多线程实时播放视频流+本地视频等。
@@ -1357,7 +1363,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 ### 8.5 内核-海康sdk
 不自带，需要额外购买此模块。
 #### 8.5.1 效果图
- ![](snap/8-5-1-1.jpg)
+ ![](snap/8-5-1.jpg)
 
 #### 8.5.2 功能介绍
 1. 支持播放视频流和本地MP4文件。
@@ -1402,22 +1408,22 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 视频监控系统支持多种工作模式，不同的工作模式可以有不同的主界面、悬停模块、布局方案。互相不影响。悬停模块可以有透明度，更具科幻感。
 
 #### 9.0.1 视频监控-普通模式
- ![](snap/9-0-1-1.jpg)
+ ![](snap/9-0-1.jpg)
 
 #### 9.0.2 视频监控-全屏模式
- ![](snap/9-0-2-1.jpg)
+ ![](snap/9-0-2.jpg)
 
 #### 9.0.3 机器人监控-普通模式
- ![](snap/9-0-3-1.jpg)
+ ![](snap/9-0-3.jpg)
 
 #### 9.0.4 机器人监控-全屏模式
- ![](snap/9-0-4-1.jpg)
+ ![](snap/9-0-4.jpg)
 
 #### 9.0.5 无人机监控-普通模式
- ![](snap/9-0-5-1.jpg)
+ ![](snap/9-0-5.jpg)
 
 #### 9.0.6 无人机监控-全屏模式
- ![](snap/9-0-6-1.jpg)
+ ![](snap/9-0-6.jpg)
 
 
 ### 9.1 设备列表
@@ -1492,15 +1498,41 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 ## 10 各系统运行图
 ### 10.0 样式风格
  ![](snap/10-0-1.jpg)
- ![](snap/10-0-4.jpg)
+ ![](snap/10-0-3.jpg)
  ![](snap/10-0-5.jpg)
- ![](snap/10-0-7.jpg)
- ![](snap/10-0-9.jpg)
  ![](snap/10-0-11.jpg)
- ![](snap/10-0-13.jpg)
  ![](snap/10-0-15.jpg)
- ![](snap/10-0-16.jpg)
  ![](snap/10-0-17.jpg)
+
+本系统内置高达18套皮肤样式供用户选择，可以在系统设置中随意切换立即应用。
+```cpp
+void QUIStyle::getStyle(QStringList &styleNames, QStringList &styleFiles)
+{
+    static QStringList names;
+    if (names.count() == 0) {
+        names << "黑蓝色" << "软件黑" << "视频黑";
+        names << "深黑色" << "深蓝色" << "深灰色";
+        names << "扁平黑" << "扁平蓝" << "扁平灰";
+        names << "浅黑色" << "浅蓝色" << "浅灰色";
+        names << "普通黑" << "普通蓝" << "普通灰";
+        names << "大蓝色" << "大紫色" << "大银色";
+    }
+
+    //中文皮肤名称对应样式表文件
+    static QStringList files;
+    if (files.count() == 0) {
+        files << ":/qss/blackblue.css" << ":/qss/blacksoft.css" << ":/qss/blackvideo.css";
+        files << ":/qss/darkblack.css" << ":/qss/darkblue.css" << ":/qss/darkgray.css";
+        files << ":/qss/flatblack.css" << ":/qss/flatblue.css" << ":/qss/flatgray.css";
+        files << ":/qss/lightblack.css" << ":/qss/lightblue.css" << ":/qss/lightgray.css";
+        files << ":/qss/normalblack.css" << ":/qss/normalblue.css" << ":/qss/normalgray.css";
+        files << ":/qss/otherblue.css" << ":/qss/otherpurple.css" << ":/qss/othersilvery.css";
+    }
+
+    styleNames = names;
+    styleFiles = files;
+}
+```
 
 ### 10.1 windows-mingw
  ![](snap/10-1-1.jpg)
@@ -1510,37 +1542,27 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 
 ### 10.3 linux-ubuntu
  ![](snap/10-3-1.jpg)
- ![](snap/10-3-2.jpg)
 
 ### 10.4 linux-fedora
  ![](snap/10-4-1.jpg)
- ![](snap/10-4-2.jpg)
 
 ### 10.5 linux-centos
  ![](snap/10-5-1.jpg)
- ![](snap/10-5-2.jpg)
 
 ### 10.6 linux-uos
  ![](snap/10-6-1.jpg)
- ![](snap/10-6-2.jpg)
 
 ### 10.7 linux-kylin
  ![](snap/10-7-1.jpg)
- ![](snap/10-7-2.jpg)
 
 ### 10.8 linux-neokylin
  ![](snap/10-8-1.jpg)
- ![](snap/10-8-2.jpg)
- ![](snap/10-8-3.jpg)
 
 ### 10.9 linux-newstart
  ![](snap/10-9-1.jpg)
- ![](snap/10-9-2.jpg)
 
 ### 10.10 unix-mac
  ![](snap/10-10-1.jpg)
- ![](snap/10-10-2.jpg)
- ![](snap/10-10-3.jpg)
 
 ## 11 程序框架说明
 备注：下面的截图和说明未必是最新的，但是大部分是一致的，整体的框架不会改变，可能会有新增加子模块和代码，或者部分类文件有调整或者删除，具体以最新的代码为准。
@@ -1571,7 +1593,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 具体代码不做过多说明。
 
 #### 11.3.2 通信及辅助类
- ![](snap/11-3-2-1.jpg)
+ ![](snap/11-3-2.jpg)
 
 这里放的都是一些系统初始化、设备通信相关的类。
 
@@ -1625,7 +1647,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | widgetsound | 声音面板控件，主界面右下角单击弹出音量条。 |
 
 #### 11.3.3 核心通用类库
- ![](snap/11-3-3-1.jpg)
+ ![](snap/11-3-3.jpg)
 
 这里放的全部是个人一直持续更新完善的独创的轮子，所有的项目都公用这些轮子，用到哪个就包含哪个进来，更新只需要更新轮子代码就行。
 
@@ -1743,8 +1765,6 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | yuvopenglwidget | 继承自QOpenGLWidget的YUV格式OPENGL绘制窗体。 |
 
 ##### 11.3.3.9 模块-core_form
- ![](snap/8-3-3-6.jpg)
-
 | 名称 | 说明 |
 | :------ | :------ |
 | formhelper | 封装的导入导出、导出数据到xls/pdf和打印数据、自动备份数据、保存最后打开的文件夹等。 |
@@ -1755,8 +1775,6 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | userhelper | 通用用户权限管理类，内置7种类型权限，对应权限名称可自定义，一般在用户切换对应界面或者单击了对应功能按钮的时候触发。 |
 
 ##### 11.3.3.10 模块-core_qui
- ![](snap/8-3-3-7.jpg)
-
 本组件涵盖的功能较多，所以采用了分层管理代码结构。
 
 | 名称 | 说明 |
@@ -1813,7 +1831,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | webview | 通用浏览器控件，支持webkit、webengine、miniblink。 |
 
 #### 11.3.4 界面UI
- ![](snap/11-3-4-1.jpg)
+ ![](snap/11-3-4.jpg)
 
 **界面说明**
 - 这里分门别类存放的各种功能集合的界面类。
@@ -2055,6 +2073,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 - ./configure --prefix=host --enable-shared --disable-static --disable-doc
 - 如果需要编译ffplay以便直接用其打开测试，可以在参数后面加上--enable-ffplay
 - ./configure --prefix=host --enable-shared --disable-static --disable-doc --enable-ffplay
+- 嵌入式交叉编译需要指定编译器路径 --cross-prefix=/usr/local/arm-linux-gcc-4.9.2/gcc-linaro-arm-linux-gnueabihf-4.9-2014.08_linux/bin/arm-linux-gnueabihf- --arch=arm --target-os=linux
 - 其他常用参数 --disable-zlib --disable-xlib --enable-x11grab --disable-libxcb 
 - 可以执行./configure –help 来查看支持哪些参数，尤其是各种解码器的开关，具体可搜索。
 - 其他参数可参见网页 https://blog.csdn.net/momo0853/article/details/78043903
