@@ -95,16 +95,13 @@
 　　系统内置了多种启动窗体，默认大屏系统，可以通过鼠标右键菜单进入系统设置，启动窗体下拉框选择进行切换，切换后会自动重启应用，还可选择控件演示、模块演示，在控件演示和模块演示窗体中，左侧是对应子窗体导航，会自动记住最后选中的子界面索引。
  ![](snap/1-1-1-1.jpg)
 
-大屏系统效果图：
-
+##### 1.1.1.1 大屏系统
  ![](snap/1-1-1-2.jpg)
 
-模块演示效果图：
-
+##### 1.1.1.2 模块演示
  ![](snap/1-1-1-3.jpg)
 
-控件演示效果图：
-
+###### 1.1.1.3 控件演示
  ![](snap/1-1-1-4.jpg)
 
 #### 1.1.2 系统菜单
@@ -135,12 +132,12 @@
 鼠标移动到模块与模块的边缘，鼠标变成调整间距样式，可以左右或者上下拉动，调整好间距以后自动保存到布局方案，下次启动自动应用。
 
 ### 1.2 系统设置
- ![](snap/1-2-1.jpg)
+ ![](snap/1-2-0.jpg)
 
 **系统设置中的参数，可能会不定期做调整和修改及增加，下面的图示和参数描述未必全部一致，以最新的为准。**
 
 #### 1.2.1 基本设置
- ![](snap/1-2-1-1.jpg)
+ ![](snap/1-2-1.jpg)
 
 **参数说明**
 1. 开机启动：默认关闭，开启后软件会随系统启动而启动。
@@ -158,7 +155,7 @@
 13. 请求地址：工作模式选择网络请求的时候发送的网络请求地址。
 
 #### 1.2.2 视频设置
- ![](snap/1-2-2-2.jpg)
+ ![](snap/1-2-2.jpg)
 
 **参数说明**
 1. 视频循环：开启后设定的视频打开后会循环播放。
@@ -188,12 +185,12 @@ listVideoUrl << "https://hls01open.ys7.com/openlive/6e0b2be040a943489ef0b9bb344b
 ```
 
 #### 1.2.3 采集间隔设置
- ![](snap/1-2-3-1.jpg)
+ ![](snap/1-2-3.jpg)
 
 采集间隔设置不用做说明，一看就懂，单位毫秒，可定制每个模块都对应自己的采集方式、数据库、间隔等。
 
 #### 1.2.4 数据库设置
- ![](snap/1-2-4-1.jpg)
+ ![](snap/1-2-4.jpg)
 
 理论上支持Qt支持的所有数据库，和具体程序无关，只要有对应的数据库的动态库和插件库就行，或者支持odbc数据源也可以，程序打通了odbc数据源的通信方式，所以支持各种数据库，可以先自己用对应的数据库工具连接数据库试试，通了数据库正常后在来测试程序。
 
@@ -242,7 +239,7 @@ void frmModule1::loadPlot1()
 理论上odbc的方式支持多种数据库，比如sql server，oracle，postgresql等，所以如果没有插件支持的数据库可以考虑用odbc的方式，odbc也是跨平台的。
 
 如果需要远程访问mysql数据库，mysql数据库需要设置用户 root@%
- ![](snap/1-3-2-1.jpg)
+ ![](snap/1-3-2.jpg)
 sql server数据库的配置规则，下面的链接只是参考，基本上正常电脑安装好以后都不需要下面的配置。
 https://blog.csdn.net/mozhi111/article/details/80281388
 https://blog.csdn.net/happymagic/article/details/8673476
@@ -257,7 +254,7 @@ https://blog.csdn.net/happymagic/article/details/8673476
 
 安装PostgreSQL数据库之后，默认只能本地访问连接。如果想在其他主机上访问PostgreSQL数据库服务器，就需要进行相应的配置。
 https://blog.csdn.net/weixin_36816337/article/details/81739819
- ![](snap/1-3-2-2.jpg)
+ ![](snap/1-3-3.jpg)
 人大金仓数据库kingbase，其实就是postgresql数据库改的，如果是WIN10系统建议安装在系统盘以外，不然没有权限，导致奇奇怪怪的问题。
 
 **特别提示**
@@ -273,7 +270,7 @@ https://blog.csdn.net/weixin_36816337/article/details/81739819
 需要定制协议，比如tcp client、tcp server、udp client、udp server、websocket等。
 
 #### 1.3.5 网络请求
- ![](snap/1-3-5-1.jpg)
+ ![](snap/1-3-5.jpg)
 
 找到bigscreen可执行文件所在目录下的httpserver文件，双击运行，切换到网络请求服务器页面，回复数据选择文件内容，单击启动服务器，左侧消息栏可以看到实时打印的数据，从json文件读取的数据，实际中可以是从数据库中采集的数据等。网络请求客户端/服务器工具httpserver，也是纯Qt编写的工具。
 
@@ -363,7 +360,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 第二：如果没有合适的表，则需要调整对应的模块代码。
 
 ### 2.1 产量汇总模块
- ![](snap/2-1-1.jpg)
+ ![](snap/2-1-0.jpg)
 
 子模块表名对应表：
 | 子模块标题         | 子模块表名              |
@@ -374,7 +371,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 每月零件产量趋势图 | t_1_4_wp_prod_monthly   |
 
 #### 2.1.1 模具产量
- ![](snap/2-1-1-1.jpg)
+ ![](snap/2-1-1.jpg)
 
 表名：t_1_1_mold_prod_total
 | 字段名      | 中文名  | 类型    | 长度 | 说明     |
@@ -392,7 +389,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 3           | 新模 | 40     | 25     |
 
 #### 2.1.2 每月模具产量趋势图
- ![](snap/2-1-2-1.jpg)
+ ![](snap/2-1-2.jpg)
 
 表名：t_1_2_mold_prod_monthly	
 | 字段名      | 中文名  | 类型    | 长度 | 说明     |
@@ -421,7 +418,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 12          | 2019 | 4月   | 23     | 45     | 34     |
 
 #### 2.1.3 零件产量
- ![](snap/2-1-3-1.jpg)
+ ![](snap/2-1-3.jpg)
 
 表名：t_1_3_wp_prod_total
 | 字段名      | 中文名  | 类型    | 长度 | 说明     |
@@ -439,7 +436,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 3           | 电极 | 2000   | 3000   |
 
 #### 2.1.4 每月零件产量趋势图
- ![](snap/2-1-4-1.jpg)
+ ![](snap/2-1-4.jpg)
 
 表名：t_1_4_wp_prod_monthly
 | 字段名      | 中文名  | 类型    | 长度 | 说明     |
@@ -469,7 +466,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 
 
 ### 2.2 当月计划模块
- ![](snap/2-2-1.jpg)
+ ![](snap/2-2-0.jpg)
 
 子模块表名对应表：
 | 子模块标题     | 子模块表名                 |
@@ -480,7 +477,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 每日工序达成数 | t_2_4_process_achie_number |
 
 #### 2.2.1 模具达成率
- ![](snap/2-2-1-1.jpg)
+ ![](snap/2-2-1.jpg)
 
 表名：t_2_1_mold_achie_rate
 | 字段名      | 中文名  | 类型    | 长度 | 说明     |
@@ -492,7 +489,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 默认数据：1	200	110
 
 #### 2.2.2 零件达成率
- ![](snap/2-2-2-1.jpg)
+ ![](snap/2-2-2.jpg)
 
 表名：t_2_2_wp_achie_rate
 | 字段名      | 中文名  | 类型    | 长度 | 说明     |
@@ -511,7 +508,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 4           | 电极 | 155  | 200      |
 
 #### 2.2.3 零件数
- ![](snap/2-2-3-1.jpg)
+ ![](snap/2-2-3.jpg)
 
 表名：t_2_3_wp_achie_number
 | 字段名          | 中文名  | 类型    | 长度 | 说明     |
@@ -522,7 +519,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 默认数据：1	1234
 
 #### 2.2.4 每日工序达成数
- ![](snap/2-2-4-1.jpg)
+ ![](snap/2-2-4.jpg)
 
 表名：t_2_4_process_achie_number
 | 字段名      | 中文名   | 类型    | 长度 | 说明     |
@@ -569,7 +566,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 31          | 31   | 42    | 0    | 3    |
 
 ### 2.3 设备监控模块
- ![](snap/2-3-1.jpg)
+ ![](snap/2-3-0.jpg)
 
 子模块表名对应表：
 | 子模块标题   | 子模块表名           |
@@ -578,7 +575,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 稼动率       | t_3_2_oee            |
 
 #### 2.3.1 设备运行状态
- ![](snap/2-3-1-1.jpg)
+ ![](snap/2-3-1.jpg)
 
 表名：t_3_1_device_runtime
 | 字段名      | 中文名                         | 类型    | 长度 | 说明     |
@@ -622,7 +619,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 24          | WEDM       | 8     |       |        |        | 4      | 0        | 0       |
 
 #### 2.3.2 稼动率
- ![](snap/2-3-2-1.jpg)   ![](snap/2-3-2-2.jpg)   ![](snap/2-3-2-3.jpg)
+ ![](snap/2-3-2.jpg)   ![](snap/2-3-3.jpg)   ![](snap/2-3-4.jpg)
 
 表名：t_3_2_oee
 | 字段名      | 中文名    | 类型    | 长度 | 说明     |
@@ -635,7 +632,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 默认数据：1	110	90	90
 
 ### 2.4 模具进度模块
- ![](snap/2-4-1.jpg)
+ ![](snap/2-4-0.jpg)
 
 子模块表名对应表：
 | 子模块标题     | 子模块表名                |
@@ -645,7 +642,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 加工中模具数量 | t_4_3_mold_processing_num |
 
 #### 2.4.1 模具进度
- ![](snap/2-4-1-1.jpg)
+ ![](snap/2-4-1.jpg)
 
 表名：t_3_2_oee
 | 字段名       | 中文名       | 类型    | 长度 | 说明     |
@@ -676,7 +673,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 10          | IK19010 | T2    | 修模 | 加工中 | 后盖         | 2019/2/12 | 0     | 100    | 0    |
 
 #### 2.4.2 模具状态统计
- ![](snap/2-4-2-1.jpg)   ![](snap/2-4-2-2.jpg)
+ ![](snap/2-4-2.jpg)
 
 表名：t_4_2_mold_status_parcent
 | 字段名      | 中文名         | 类型    | 长度 | 说明     |
@@ -690,7 +687,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 1	60	25	15
 
 #### 2.4.3 加工中模具数量
-界面效果图：在上面
+ ![](snap/2-4-3.jpg)
 
 表名：t_4_3_mold_processing_num
 | 字段名                 | 中文名     | 类型    | 长度 | 说明     |
@@ -701,7 +698,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 默认数据：87
 
 ### 2.5 负荷分布模块
- ![](snap/2-5-1.jpg)
+ ![](snap/2-5-0.jpg)
 
 子模块表名对应表：
 | 子模块标题   | 子模块表名              |
@@ -711,7 +708,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 负荷百分比   | t_5_3_work_load_percent |
 
 #### 2.5.1 工序计划负荷
- ![](snap/2-5-1-1.jpg)
+ ![](snap/2-5-1.jpg)
 
 表名：t_5_1_work_load
 | 字段名        | 中文名      | 类型    | 长度 | 说明     |
@@ -752,7 +749,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 1           | 2019-04-30 | 2019-05-01 | 2019-05-02 | 2019-05-03 | 2019-05-04 | 2019-05-05 | 2019-05-06 |
 
 #### 2.5.2 当日负荷
- ![](snap/2-5-2-1.jpg)
+ ![](snap/2-5-2.jpg)
 
 表名：t_5_2_work_load_today
 | 字段名      | 中文名   | 类型    | 长度 | 说明        |
@@ -773,7 +770,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 6           | 磨床       | 30    | 50   |
 
 #### 2.5.3 负荷百分比
- ![](snap/2-5-3-1.jpg)
+ ![](snap/2-5-3.jpg)
 
 表名：t_5_3_work_load_percent
 | 字段名      | 中文名   | 类型    | 长度 | 说明     |
@@ -795,7 +792,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 6           | 磨床       | 80    | 70    | 50    | 60    | 40    | 50    | 30    |
 
 ### 2.6 送检合格模块
- ![](snap/2-6-1.jpg)
+ ![](snap/2-6-0.jpg)
 
 子模块表名对应表：
 | 子模块标题     | 子模块表名            |
@@ -806,7 +803,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 模具零件合格率 | t_6_4_mold_qual_rate  |
 
 #### 2.6.1 钢件合格率
- ![](snap/2-6-1-1.jpg)
+ ![](snap/2-6-1.jpg)
 
 表名：t_6_1_wp_qual_rate
 | 字段名      | 中文名        | 类型    | 长度 | 说明     |
@@ -820,7 +817,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 1, 100, 99, 89, 95, 95, 92, 98, 100, 96, 97, 98, 99, 90, 85, 84
 
 #### 2.6.2 电极合格率
- ![](snap/2-6-2-1.jpg)
+ ![](snap/2-6-2.jpg)
 
 表名：t_6_2_ele_qual_rate	
 | 字段名      | 中文名        | 类型    | 长度 | 说明     |
@@ -834,7 +831,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 1, 100, 99, 89, 95, 95, 92, 98, 100, 96, 97, 98, 99, 90, 85, 84
 
 #### 2.6.3 当天合格率
- ![](snap/2-6-3-1.jpg)
+ ![](snap/2-6-3.jpg)
 
 表名：t_6_3_qual_rate_today
 | 字段名      | 中文名 | 类型    | 长度 | 说明     |
@@ -845,7 +842,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 默认数据：90
 
 #### 2.6.4 模具零件合格率
- ![](snap/2-6-4-1.jpg)
+ ![](snap/2-6-4.jpg)
 
 表名：t_6_4_mold_qual_rate	
 | 字段名      | 中文名   | 类型    | 长度 | 说明     |
@@ -865,7 +862,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 6           | IK19006   | 89        |
 
 ### 2.7 品质统计模块
- ![](snap/2-7-1.jpg)
+ ![](snap/2-7-0.jpg)
 
 子模块表名对应表：
 | 子模块标题     | 子模块表名            |
@@ -875,7 +872,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 每日合格率统计 | t_7_3_qual_rate_daily |
 
 #### 2.7.1 品质占比 
- ![](snap/2-7-1-1.jpg)
+ ![](snap/2-7-1.jpg)
 
 表名：t_7_1_qual_percent
 | 字段名      | 中文名     | 类型    | 长度 | 说明     |
@@ -890,7 +887,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 1	45	30	15	10
 
 #### 2.7.2 班组合格率 
- ![](snap/2-7-2-1.jpg)
+ ![](snap/2-7-2.jpg)
 
 表名：t_7_2_group_qual_rate
 | 字段名      | 中文名   | 类型    | 长度 | 说明     |
@@ -910,7 +907,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 6           | 外协       | 92        |
 
 #### 2.7.3 每日合格率统计
- ![](snap/2-7-3-1.jpg)
+ ![](snap/2-7-3.jpg)
 
 表名：t_7_3_qual_rate_daily
 | 字段名      | 中文名   | 类型    | 长度 | 说明     |
@@ -925,7 +922,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 1, 'all', 90, 90, 97, 91, 92, 88, 89, 90, 78, 87, 86, 90, 80, 97, 87, 87, 88, 89, 90, 90, 89, 86, 90, 80, 97, 87, 87, 89, 89, 89, 90
 
 ### 2.8 物料管理模块
- ![](snap/2-8-1.jpg)
+ ![](snap/2-8-0.jpg)
 
 子模块表名对应表：
 | 子模块标题   | 子模块表名       |
@@ -934,7 +931,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 主要零件库存 | t_8_2_invt_table |
 
 #### 2.8.1 库存占比
- ![](snap/2-8-1-1.jpg)
+ ![](snap/2-8-1.jpg)
 
 表名：t_8_1_key_invt
 | 字段名      | 中文名 | 类型    | 长度 | 说明     |
@@ -953,7 +950,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 | 4           | 树脂D   | 100         | 10      |
 
 #### 2.8.2 主要零件库存
- ![](snap/2-8-2-1.jpg)
+ ![](snap/2-8-2.jpg)
 
 表名：t_8_2_invt_table
 | 字段名      | 中文名   | 类型    | 长度 | 说明     |
@@ -1137,7 +1134,7 @@ tag=t_1_1_mold_prod_total&tableName=t_1_1_mold_prod_total&columnName=name,prod_1
 
 ### 4.4 辅助处理
 #### 4.4.1 数据库表映射
- ![](snap/4-4-1-1.jpg)
+ ![](snap/4-4-1.jpg)
 
 将对应的用户表映射到变量队列存储，以便用户登录和整体判断权限等。
 
@@ -1419,7 +1416,7 @@ public:
 ```
 
 #### 4.4.3 初始化及辅助
- ![](snap/4-4-3-1.jpg)
+ ![](snap/4-4-3.jpg)
 
 | 名称      | 说明                                                         |
 | :-------- | :----------------------------------------------------------- |
@@ -1429,7 +1426,7 @@ public:
 | appkey    | 通用秘钥管理类。                                             |
 
 #### 4.4.4 自定义控件
- ![](snap/4-4-4-1.jpg)
+ ![](snap/4-4-4.jpg)
 
 | 名称           | 说明                                                         |
 | :------------- | :----------------------------------------------------------- |
@@ -1442,6 +1439,7 @@ public:
 | progressthree  | 三态进度条                                                   |
 | switchbutton   | 开关按钮                                                     |
 
+ ![](snap/4-4-4-1.jpg) 
  ![](snap/4-4-4-2.jpg) 
  ![](snap/4-4-4-3.jpg) 
  ![](snap/4-4-4-4.jpg)
@@ -1449,7 +1447,6 @@ public:
  ![](snap/4-4-4-6.jpg) 
  ![](snap/4-4-4-7.jpg)
  ![](snap/4-4-4-8.jpg) 
- ![](snap/4-4-4-9.jpg)
 
 ### 4.5 内核模块
 #### 4.5.1 通用自定义控件
@@ -1467,7 +1464,7 @@ public:
 | xslider         | 滑动条控件，在原有滑动条基础上增加了鼠标按下立即定位等。     |
 
 #### 4.5.2 图表组件内核
- ![](snap/4-5-2-1.jpg)
+ ![](snap/4-5-2.jpg)
 
 | 名称             | 说明                                                     |
 | :--------------- | :------------------------------------------------------- |
@@ -1481,7 +1478,7 @@ public:
 | smoothcurve      | 平滑曲线算法类，内置多种平滑算法，可以自行增加其他算法。 |
 
 #### 4.5.3 数据库应用内核
- ![](snap/4-5-3-1.jpg)
+ ![](snap/4-5-3.jpg)
 
 本系统只用到了该类库中的dbconnthread、dbhttpthread。
 dbconnthread：封装的一个通用的数据库通信类，支持sqlite、mysql、PostgreSQL等数据库，功能包括了数据库的打开和关闭，线程执行sql语句队列信号发出执行结果等，支持重连。
@@ -1500,7 +1497,7 @@ dbhttpthread：本系统除了支持数据库采集模式以外，还支持发�
 | navpage       | 分页导航控件。                                            |
 
 #### 4.5.4 视频监控内核
- ![](snap/4-5-4-1.jpg)
+ ![](snap/4-5-4.jpg)
 
 | 名称          | 说明                                                     |
 | :------------ | :------------------------------------------------------- |
@@ -1514,7 +1511,7 @@ dbhttpthread：本系统除了支持数据库采集模式以外，还支持发�
 | videoffmpeg   | ffmpeg多通道管理类。                                     |
 
 #### 4.5.5 大屏地图内核
- ![](snap/4-5-5-1.jpg)
+ ![](snap/4-5-5.jpg)
 
 | 名称     | 说明                                                         |
 | :------- | :----------------------------------------------------------- |
@@ -1523,7 +1520,7 @@ dbhttpthread：本系统除了支持数据库采集模式以外，还支持发�
 | mapbaidu | 百度地图封装类，支持在线和离线两种模式。                     |
 
 #### 4.5.6 视频绘制内核
- ![](snap/4-5-6-1.jpg)
+ ![](snap/4-5-6.jpg)
 
 | 名称             | 说明                                          |
 | :--------------- | :-------------------------------------------- |
@@ -1533,7 +1530,7 @@ dbhttpthread：本系统除了支持数据库采集模式以外，还支持发�
 | yuvopenglwidget  | 继承自QOpenGLWidget的YUV格式OPENGL绘制窗体。  |
 
 #### 4.5.7 通用浏览器内核
- ![](snap/4-5-7-1.jpg)
+ ![](snap/4-5-7.jpg)
 
 | 名称        | 说明                                                         |
 | :---------- | :----------------------------------------------------------- |
@@ -1545,7 +1542,7 @@ dbhttpthread：本系统除了支持数据库采集模式以外，还支持发�
 
 ### 4.6 界面模块
 #### 4.6.1 大屏控件演示
- ![](snap/4-6-1-1.jpg)
+ ![](snap/4-6-1.jpg)
 
 | 名称          | 说明                                             |
 | :------------ | :----------------------------------------------- |
@@ -1562,7 +1559,7 @@ dbhttpthread：本系统除了支持数据库采集模式以外，还支持发�
 | frmplotsmooth | 平滑曲线图。                                     |
 
 #### 4.6.2 大屏模块演示
- ![](snap/4-6-2-1.jpg)
+ ![](snap/4-6-2.jpg)
 
 | 名称            | 说明                                           |
 | :-------------- | :--------------------------------------------- |
@@ -1581,7 +1578,7 @@ dbhttpthread：本系统除了支持数据库采集模式以外，还支持发�
 | frmmodulevideo  | 视频监控。                                     |
 
 #### 4.6.3 主界面模块
- ![](snap/4-6-3-1.jpg)
+ ![](snap/4-6-3.jpg)
 
 | 名称        | 说明                                   |
 | :---------- | :------------------------------------- |
@@ -1594,168 +1591,172 @@ dbhttpthread：本系统除了支持数据库采集模式以外，还支持发�
 ## 5 效果图
 ### 5.1 布局方案
 #### 5.1.1 自定义布局1
- ![](snap/5-1-1-1.jpg)
+ ![](snap/5-1-1.jpg)
 
 #### 5.1.2 自定义布局2
- ![](snap/5-1-2-1.jpg)
+ ![](snap/5-1-2.jpg)
 
 #### 5.1.3 自定义布局3
- ![](snap/5-1-3-1.jpg)
+ ![](snap/5-1-3.jpg)
 
 #### 5.1.4 自定义布局4
- ![](snap/5-1-4-1.jpg)
+ ![](snap/5-1-4.jpg)
 
 #### 5.1.5 自定义布局5
- ![](snap/5-1-5-1.jpg)
+ ![](snap/5-1-5.jpg)
 
 #### 5.1.6 自定义布局6
- ![](snap/5-1-6-1.jpg)
+ ![](snap/5-1-6.jpg)
 
 #### 5.1.7 自定义布局7
- ![](snap/5-1-7-1.jpg)
+ ![](snap/5-1-7.jpg)
 
 #### 5.1.8 自定义布局8
- ![](snap/5-1-8-1.jpg)
+ ![](snap/5-1-8.jpg)
 
 ### 5.2 配色方案
 #### 5.2.1 紫色风格
- ![](snap/5-2-1-1.jpg)
+ ![](snap/5-2-1.jpg)
 
 #### 5.2.2 蓝色风格
- ![](snap/5-2-2-1.jpg)
+ ![](snap/5-2-2.jpg)
 
 #### 5.2.3 深蓝风格
- ![](snap/5-2-3-1.jpg)
+ ![](snap/5-2-3.jpg)
 
 #### 5.2.4 黑色风格
- ![](snap/5-2-4-1.jpg)
+ ![](snap/5-2-4.jpg)
 
 ### 5.3 模块效果图
 #### 5.3.1 产量汇总
- ![](snap/5-3-1-1.jpg)
+ ![](snap/5-3-1.jpg)
 
 #### 5.3.2 当月计划
- ![](snap/5-3-2-1.jpg)
+ ![](snap/5-3-2.jpg)
 
 #### 5.3.3 设备监控
- ![](snap/5-3-3-1.jpg)
+ ![](snap/5-3-3.jpg)
 
 #### 5.3.4 模具进度
- ![](snap/5-3-4-1.jpg)
+ ![](snap/5-3-4.jpg)
 
 #### 5.3.5 负荷分布
- ![](snap/5-3-5-1.jpg)
+ ![](snap/5-3-5.jpg)
 
 #### 5.3.6 送检合格
- ![](snap/5-3-6-1.jpg)
+ ![](snap/5-3-6.jpg)
 
 #### 5.3.7 品质管理
- ![](snap/5-3-7-1.jpg)
+ ![](snap/5-3-7.jpg)
 
 #### 5.3.8 物料管理
- ![](snap/5-3-8-1.jpg)
+ ![](snap/5-3-8.jpg)
 
 #### 5.3.9 视频监控
- ![](snap/5-3-9-1.jpg)
+ ![](snap/5-3-9.jpg)
 
 #### 5.3.10 大屏地图
 ##### 5.3.10.1闪烁效果
- ![](snap/5-3-10-1-1.jpg)
+ ![](snap/5-3-10-1.jpg)
 
 ##### 5.3.10.2 迁徙效果
- ![](snap/5-3-10-2-1.jpg)
+ ![](snap/5-3-10-2.jpg)
 
 ##### 5.3.10.3 世界地图
- ![](snap/5-3-10-3-1.jpg)
+ ![](snap/5-3-10-3.jpg)
 
 ##### 5.3.10.4 区域地图
- ![](snap/5-3-10-4-1.jpg)
+ ![](snap/5-3-10-4.jpg)
 
 #### 5.3.11 系统设置
- ![](snap/5-3-11-1.jpg) 
- ![](snap/5-3-11-2.jpg)
+ ![](snap/5-3-11.jpg)
 
 ### 5.4 控件效果图
 #### 5.4.1 标准曲线
- ![](snap/5-4-1-1.jpg)
+ ![](snap/5-4-1.jpg)
 
 #### 5.4.2 曲线面积
- ![](snap/5-4-2-1.jpg)
+ ![](snap/5-4-2.jpg)
 
 #### 5.4.3 模拟曲线
- ![](snap/5-4-3-1.jpg)
+ ![](snap/5-4-3.jpg)
 
 #### 5.4.4 标准柱状
- ![](snap/5-4-4-1.jpg)
+ ![](snap/5-4-4.jpg)
 
 #### 5.4.5 柱状堆积
- ![](snap/5-4-5-1.jpg)
+ ![](snap/5-4-5.jpg)
 
 #### 5.4.6 柱状分组
- ![](snap/5-4-6-1.jpg)
+ ![](snap/5-4-6.jpg)
 
 #### 5.4.7 横向柱状
- ![](snap/5-4-7-1.jpg)
+ ![](snap/5-4-7.jpg)
 
 #### 5.4.8 横向分组
- ![](snap/5-4-8-1.jpg)
+ ![](snap/5-4-8.jpg)
 
 #### 5.4.9 数据曲线
- ![](snap/5-4-9-1.jpg)
+ ![](snap/5-4-9.jpg)
 
 #### 5.4.10 平滑曲线
- ![](snap/5-4-10-1.jpg)
+ ![](snap/5-4-10.jpg)
+
+#### 5.4.11 多坐标轴
+ ![](snap/5-4-11.jpg)
+
+#### 5.4.12 多曲线图
+ ![](snap/5-4-12.jpg)
 
 ### 5.5 数据库效果图
 #### 5.5.1 数据库-sqlite
- ![](snap/5-5-1-1.jpg)
+ ![](snap/5-5-1.jpg)
 
 #### 5.5.2 数据库-mysql
- ![](snap/5-5-2-1.jpg)
+ ![](snap/5-5-2.jpg)
 
 #### 5.5.3 数据库-sqlserver
- ![](snap/5-5-3-1.jpg)
+ ![](snap/5-5-3.jpg)
 
 #### 5.5.4 数据库-postgresql
- ![](snap/5-5-4-1.jpg)
+ ![](snap/5-5-4.jpg)
 
 #### 5.5.5 数据库-oracle
 
 #### 5.5.6 数据库-kingbase
- ![](snap/5-5-6-1.jpg)
+ ![](snap/5-5-6.jpg)
 
 人大金仓数据库-kingbase，其实就是postgresql数据库改的，配置文件都一样，所以可以用连接postgresql数据库的方式进行处理。
 
 #### 5.5.7 数据库-远程访问
- ![](snap/5-5-7-1.jpg)
+ ![](snap/5-5-7.jpg)
 
 #### 5.5.8 数据库-odbc
- ![](snap/5-5-8-1.jpg)
+ ![](snap/5-5-8.jpg)
 
 ODBC连接字符串格式如上图所示。
 
 ### 5.6 各系统运行图
 #### 5.6.1 windows-mingw
- ![](snap/5-6-1-1.jpg)
+ ![](snap/5-6-1.jpg)
 
 #### 5.6.2 windows-msvc
- ![](snap/5-6-2-1.jpg)
- ![](snap/5-6-2-2.jpg)
+ ![](snap/5-6-2.jpg)
 
 #### 5.6.3 linux-ubuntu
- ![](snap/5-6-3-1.jpg)
+ ![](snap/5-6-3.jpg)
 
 #### 5.6.4 linux-uos
- ![](snap/5-6-4-1.jpg)
+ ![](snap/5-6-4.jpg)
 
 #### 5.6.5 linux-kylin
- ![](snap/5-6-5-1.jpg)
+ ![](snap/5-6-5.jpg)
 
 #### 5.6.6 linux-neokylin
- ![](snap/5-6-6-1.jpg)
+ ![](snap/5-6-6.jpg)
 
 #### 5.6.7 linux-fedoar
- ![](snap/5-6-7-1.jpg)
+ ![](snap/5-6-7.jpg)
 
 #### 5.6.8 unix-mac
- ![](snap/5-6-8-1.jpg)
+ ![](snap/5-6-8.jpg)
