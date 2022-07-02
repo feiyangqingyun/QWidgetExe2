@@ -6,7 +6,7 @@
 3. 如果是依赖SDK去实现的功能（雨刷、去雾等）都没有做，那个破坏了兼容性，无法通用其他摄像机设备以及其他操作系统。
 4. 每个厂家SDK和定制的功能都不一样，如果有这方面的需要都是买过去自己加上SDK的功能和自己定制需要的功能。
 5. 整个项目源代码行数大概30W行（项目代码本身除去第三方库以后约7W行，就是自己写的部分），其中代码13.5W行（占比45%），注释12.7W行（占比42%），空行3.5W行。分层设计注释详细。
-6. 本程序会一直持续迭代更新，包括项目源码、整体框架、使用说明等，购买者可永久免费升级，一次购买终生售后。
+6. 本程序会一直持续迭代更新，包括项目源码、整体框架、使用说明等，一次购买终生售后。
 
 ### 0.2 特别说明
 1. 程序本身是个客户端（直接从摄像机取rtsp视频流）并不是服务器程序。
@@ -191,12 +191,58 @@ https://pan.baidu.com/s/13LDRu6mXC6gaADtrGprNVA  提取码: ujm7。
 10. rtmp://livetv.dhtv.cn:1935/live/financial
 11. rtmp://livetv.dhtv.cn:1935/live/news
 
+#### 0.7.6 监控设备
+**下面列出的是一些常用厂家的格式，不同厂家格式不一样，具体什么格式请咨询厂家索要对应的视频流格式，或者设备支持onvif的话，通过onvif工具搜索可以拿到视频流格式。**
+
+##### 0.7.6.1 海康
+- 实时预览格式：rtsp://admin:12345@192.168.1.128:554/Streaming/Channels/101?transportmode=unicast
+- 视频回放格式：rtsp://admin:12345@192.168.1.128:554/Streaming/tracks/101?starttime=20120802t063812z&endtime=20120802t064816z
+- 流媒体视频流：rtsp://172.6.24.15:554/Devicehc8://172.6.22.106:8000:0:0?username=admin&password=12345
+- 日期时间格式：ISO 8601 表示Zulu(GMT) 时间 YYYYMMDD”T”HHmmSS.fraction”Z”，
+- 单播多播说明：unicast表示单播，multicast表示多播，默认单播，可以省略。
+- 通道码流说明：101，1是通道号，01是通道的码流编号，也可以是02、03，第2通道主码流=201，第16通道子码流=1602，依次类推。
+
+##### 0.7.6.2 大华
+- 实时预览格式：rtsp://192.168.1.128:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif
+- 视频回放格式：rtsp://admin:12345@192.168.1.128:554/cam/playback?channel=1&subtype=0&starttime=2021_03_18_11_36_01&endtime=2021_03_18_12_05_01
+- 格式内容说明：channel表示通道，subtype表示码流编号，日期时间字符串非常明确。
+
+##### 0.7.6.3 常规
+- 实时预览格式：rtsp://admin:12345@192.168.1.128:554/live?channel=1&stream=1
+- 视频回放格式：rtsp://admin:12345@192.168.1.128:554/file?channel=1&start=1494485280&stop=1494485480
+- 其他通用格式：rtsp://admin:12345@192.168.1.128:554/0  0-主码流 1-子码流
+- 日期时间说明：先转换时间戳，1970年到该时间经过的秒数。
+
 ### 0.8 版本说明
 #### 0.8.1 精益求精
 
 #### 0.8.2 破茧成蝶
 - 考虑增加mediaplayer内核，限定Qt5.有些嵌入式板子支持mediaplay硬解码。
 - 考虑提取抽象视频控件类，可以将vlc、ffmpeg、mpv、海康等视频类移除大量重复代码。
+
+**V20220625**
+1. 在之前支持NVR所有通道批量添加基础上，增加自动添加NVR信息到表，这样每个NVR都会自动添加，如果有手动添加好的则取添加好的，以IP地址为准。
+2. 修复设备在线状态处理，在同一个NVR下IP地址相同的不同通道视频，不会处理在线状态的BUG。
+3. 修复在postgresql数据库和oracle数据库下，QSqlTableModel对应setTable设置表名严格区分大小写的BUG。
+
+**V20220612**
+1. 修复qss中分组框QGroupBox标题位移的BUG，在linux系统表现不统一。
+2. 改进同样的内容导出到pdf和打印显示效果不一致的情况，统一设置分辨率为96。
+3. 摄像机管理增加多选删除，删除的时候除了删除摄像机表中对应记录，也同时删除轮询信息表中的记录。
+4. 初始化数据库按钮增加弹框确认，由于这个操作安全级别非常高，增加弹框确认很有必要。
+5. 所有QTableView+QSqlTableModel对应的保存按钮代码增加主动设置焦点，避免mac系统中当单元格处于编辑状态，再去单击保存按钮，数据依然是之前的数据的BUG。
+6. 样式表全局颜色增加悬停背景颜色QUIConfig::HoverBgColor和选中背景颜色QUIConfig::SelectBgColor用于自定义委托。
+7. 对于加深的样式，重新设置单元格等item选中和悬停颜色 默认悬停-DarkColorEnd 选中-NormalColorEnd，加深颜色设置为相反。
+8. 增加全局参数控制是悬停颜色覆盖选中颜色还是选中颜色优先，默认选中颜色优先，这样选中的item鼠标移上去不会改变掉颜色。
+9. 增加过滤同名的NVR，之前会重复加载，现在限定同名的只加载一个，要求整个系统中NVR的名字必须唯一。
+10. 轮询管理中增加摄像机表的过滤条件，启用了的才显示在表格中。
+11. 增加播放记录开关，用于软件启动后，是否从播放记录url.txt读取历史记录进行播放。
+12. 增加播放记录url.txt过滤机制，只有摄像机表中存在且启用过的才可以播放。也可以改成只对rtsp开头的进行过滤。
+13. 增加选择列表通道的时候自动选中视频通道，高亮显示，这样很明确知道选择的哪个，同理，选中视频通道也高亮选中列表通道。相当于通道选中和列表选中联动。
+14. 增加设备列表在线离线不同图标显示，目前只对rtsp地址开头的进行实时监测上线离线状态，其他全部永远当做在线。离线图标颜色取系统设置中的报警图标颜色。
+15. 增加设备在线状态字段列表，实时监测设备状态期间先判断状态是否发生变化，只有发生变化了才需要去调用对应函数处理，大大减少无效的多余的处理。
+16. 修复设备列表双击空白处崩溃的BUG，需要过滤空节点item。
+17. 增加表格策略，单选按下编辑、多选双击编辑，有些用户需要多选摄像机列表删除。
 
 **V20220515**
 1. 将用户退出中的退出系统权限验证去掉，理论上对退出系统这个限制没啥意义，还可以通过任务管理器强制关闭进程。
@@ -205,9 +251,12 @@ https://pan.baidu.com/s/13LDRu6mXC6gaADtrGprNVA  提取码: ujm7。
 4. 修复静音状态下调整音量可能不正确的BUG，静音状态下只改变音量值变量而不是正常改变音量。
 5. 实现右下角音量面板静音切换、音量值调整，全局视频控件应用。
 6. 改进默认地图算法，取第一个有背景地图的设备的图片作为默认图片，可能默认图片不存在则取图片列表中的第一张。
+7. 修复ffmpeg内核回调模式自动重连崩溃的BUG，此时图片不存在应该置为空。
+8. 增加识别秘钥有限制后限定标题栏带试用字样。
+9. 重写通用的视频地址类videourl，将通道改成0开始，分隔符改成英文逗号，视频地址集合通过指定枚举值选择不同类型添加。
+10. 增加自动插入临时消息到数据库用户操作记录，增加参数控制是否需要显示临时消息的时候插入。
 
 **V20220413**
-
 1. 修复视频控件设置自定义背景颜色的时候，没有考虑边框的范围问题。
 2. 选项卡样式去掉悬停样式，经过观察对比Qt自带的样式都是没有悬停样式，直接是选中样式。
 3. 修复自定义委托复选框不居中的问题，之前计算不准确会有细微偏差。
@@ -856,8 +905,8 @@ https://blog.csdn.net/feiyangqingyun/article/details/104005917
 4. 中文标题：软件左上角标题栏的中文标题，改动立即应用。
 5. 英文标题：软件左上角标题栏的英文标题，改动立即应用。
 6. 版权所有：当前软件版权所有的公司，目前没有显示在哪里，备用。
-7. 调试日志：开启后会将打印日志输出到日志文件，默认关闭。
-8. 运行时间：开启后会实时记录系统的运行时间，记录当前软件启动后运行了多久。
+7. 调试日志：开启后会将打印日志输出到日志文件，默认关闭，日志文件存放在可执行文件夹下的log目录下。
+8. 运行时间：开启后会实时记录系统的运行时间，记录当前软件启动后运行了多久，运行时间文件存放在可执行文件夹下的log目录下。
 9. 工作模式：默认视频监控，可选机器人监控、无人机监控等。
 10. 导航样式：用于选择顶部导航栏和左侧导航栏的样式，上侧+左侧表示顶部导航栏上侧样式（图标在上面，文字在下面），左侧导航栏左侧样式（图标在左侧，文字在右侧）。
 11. 界面样式：系统自带17套皮肤，可以在这里自动换肤，默认视频黑。
@@ -2063,6 +2112,9 @@ void QUIStyle::getStyle(QStringList &styleNames, QStringList &styleFiles)
 
 如果在数据库设置中选择了mysql数据库，需要对mysql数据库做个设置，就是将编码设置成utf8，已设置可以跳过，不然很可能数据库无法正常使用。
 
+32位的Qt程序，带对应32位的libmysql动态库，可以访问32/64位的mysql数据库，64位的也是一样可以访问32/64位的mysql数据库，只需要带上对应位数的动态库就行。查看mysql是32位还是64位命令 mysql.exe -V。
+ ![](snap/13-6-2.jpg)
+
 ### 13.7 打开USB摄像头
  ![](snap/13-7-1.jpg)
 
@@ -2080,7 +2132,8 @@ void QUIStyle::getStyle(QStringList &styleNames, QStringList &styleFiles)
 整个项目源代码行数大概30W行，其中代码13.5W行（占比45%），注释12.7W行（占比42%），空行3.5W行。分层设计注释详细。
 
 ### 13.9 编译ffmpeg
-1. 第一步：下载好ffmpeg，这个可以去官网 http://ffmpeg.org/自行找到下载位置下载。要注意的是有些很老的嵌入式linux系统的编译器未必支持最新的ffmpeg4，建议下载3。
+下面是linux系统编译ffmpeg步骤
+1. 第一步：下载好ffmpeg，这个可以去官网 http://ffmpeg.org/ 自行找到下载位置下载。要注意的是有些很老的嵌入式linux系统的编译器未必支持最新的ffmpeg4，建议下载3。
 2. 第二步：复制ffmpeg-3.4.5.tar.gz  到自定义文件夹下，我这里是/home/liu
 3. 第三步：解压ffmpeg，tar –zxvf ffmpeg-3.4.5.tar.gz –C /home/liu
 4. 第四步：安装编译ffmpeg依赖的包 apt-get install yasm
@@ -2098,3 +2151,47 @@ void QUIStyle::getStyle(QStringList &styleNames, QStringList &styleFiles)
 - make  （还可以开启多线程编译加快速度 make –j4）
 - make install
 6. 第六步：打开ffmpeg3.4.5/host目录，生成的文件都在这里，拿去用吧。
+
+windows系统采用mingw编译ffmpeg https://blog.csdn.net/yp18792574062/article/details/108962638
+
+### 13.10 高分屏缩放
+- 在windows上经常遇到高分屏缩放的问题，很头疼，貌似这东西就是windows首发的。
+- 在Qt4时代的程序遇到高分屏缩放，不作任何处理，毕竟Qt4时代（2010年以前）出来的时候几乎还没高分屏缩放这东西。
+- 从Qt5.6开始提供了高分屏缩放支持，需要在main函数前面设置 QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+- 从Qt5.14开始提供了高分屏缩放策略设置，需要在main函数前面设置 QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+- 从Qt6.0开始默认就开启高分屏属性Qt::AA_EnableHighDpiScaling，而且不允许关闭（所以你会发现程序用Qt6编译后界面变得很大）。可以通过setHighDpiScaleFactorRoundingPolicy函数设置策略。
+- 如果不想要高分屏，希望程序永远保持默认的尺寸，你需要在main函数前面设置 QApplication::setAttribute(Qt::AA_Use96Dpi); 表示永远不缩放。
+- 如果希望启用Qt的高分屏则需要设置Qt::AA_EnableHighDpiScaling和setHighDpiScaleFactorRoundingPolicy。缺点是图片容易发虚，比如复选框的边框，哪怕是Qt内置样式风格或者系统默认风格也一样。
+```cpp
+int main(int argc, char *argv[])
+{
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);    QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+    QApplication a(argc, argv);
+}
+```
+- 另外一种办法就是写个文本文件qt.conf（Qt程序默认的标准配置文件，必须是这个名字），写入内容后，放到可执行文件同一目录即可，此方法采用操作系统的策略进行缩放，推荐此方法，虽然看起来稍微有点模糊，但不会出现发虚等问题，整体一致。
+```cpp
+[Platforms]
+WindowsArguments = dpiawareness=0
+```
+- 没有完美的高分屏支持方法，都是只能尽量满足，哪怕是windows系统本身，在开启缩放的时候，任务管理器也是模糊的很（尽管改成124%可以改变，但总归不是好办法），还有很多其他知名软件也是如此。
+- 参考文章 [https://blog.csdn.net/startl/article/details/105862817](https://blog.csdn.net/startl/article/details/105862817)
+
+ ![](snap/13-10-1.jpg)
+ ![](snap/13-10-2.jpg)
+ ![](snap/13-10-3.jpg)
+
+### 13.11 浏览器内核
+- 本系统的电子地图模块支持三种浏览器内核：webkit、webengine、miniblink，编译的时候会自动识别。
+- 其中Qt5.6以前用的是webkit，Qt5.6版本以后分两种情况，一种是mingw编译器（windows系统）对应的Qt库不再提供浏览器模块，所以本系统为了兼容各种编译器，特意封装了miniblink浏览器内核，弥补这个不足。
+- Qt5.6以后的版本在linux系统和mac等系统，都不存在没有浏览器控件的情况，都使用的webengine。
+- 仅仅是windows上的mingw编译器的Qt版本没有，其他系统其实都有的。很多人在这个地方都有疑问，都以为只有msvc编译器有浏览器控件，其实确切的说是在windows上msvc的Qt库带浏览器控件。
+- 安装Qt的时候webengine模块默认不勾选，需要主动勾选才会安装。
+- 也不是所有的msvc的Qt版本都有webengine浏览器模块，哪怕你勾选了也没用，有些版本官方并没有编译，需要自行编译。需要到对应的Qt安装目录查看是否有 Qt5WebEngine.dll 文件。
+
+ ![](snap/13-11-1.jpg)
+
+### 13.12 ODBC数据源
+本系统除了支持直连各种数据库比如mysql、postgresql、sqlserver、oracle数据库，也支持odbc数据源的形式连接以上各种数据库，在配置数据源的时候，记得区分32、64位，对应数据源后面带有32/64一起字样的说明该数据源可以同时支持32位和64位的程序访问，不带的要用对应位数的才能访问。数据库名称记得填写的是数据源对应的名称，而不是数据源连接的数据库名称，很多人会搞错。
+
+ ![](snap/13-12-1.jpg)
