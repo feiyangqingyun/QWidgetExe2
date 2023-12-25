@@ -121,7 +121,7 @@
 3. 如果开启了视频监控（默认开启），则记得将对应的动态库文件复制到可执行文件同一目录。比如采用ffmpeg内核（默认就是ffmpeg）的话，则将下载到的dll_ffmpeg4下的所有文件复制到可执行文件同一目录。
 4. 各个操作系统对应的ffmpeg编译好的动态库以及miniblink的动态库下载地址。
 https://pan.baidu.com/s/13LDRu6mXC6gaADtrGprNVA  提取码: ujm7。
-5. 如果是64位的qt则对应的dll是拷贝dll_ffmpeg4_64目录下的，64位的linux对应的是linuxlib64.tar.gz。
+5. 如果是64位的qt则对应的dll是拷贝dll_ffmpeg4_64目录下的，64位的linux对应的是liblinux64.tar.gz。
 6. 本系统支持ffmpeg2/3/4/5/6所有版本，默认是ffmpeg4，如果要支持XP需要用ffmpeg2/3。如果是在linux/mac系统上编译记得查看core_videoffmpeg/下面的 linux系统和mac系统上库的用法.txt/编译阶段linux系统ffmpeg库放置位置.jpg/运行阶段linux系统ffmpeg库放置位置.jpg。
 7. 如果编译运行提示miniblink文件不存在请先拷贝，则说明你当前用的Qt版本没有浏览器模块，要么没安装，要么不支持，你也不用担心啥，此时自动切换用的miniblink浏览器内核，你还需要将ffmpeg库下载的网盘的地方找到dll_miniblink.zip下载解压到可执行文件同一目录即可。
 8. 系统中所有的图标，都采用的图形字体，对照表在doc目录下的FontAwesome.png、FontAliBaBa.png，对应图形字体类IconHelper中加载的图形字体，后期如果还有增加的其他图形字体也是放在这里，一个类支持多种图形字体，通过不同的值范围自动设置。
@@ -291,11 +291,15 @@ https://pan.baidu.com/s/13LDRu6mXC6gaADtrGprNVA  提取码: ujm7。
 3. 重新编码保存模式下，不支持crop裁剪滤镜。
 
 **V20231205**
+
 1. 增加通用地址格式规范，url|transport|encodeType|videoFormat|encodeVideoRatio|encodeVideoScale，可以直接在播放地址中指定通信协议、是否编码保存、编码帧率等信息，具体可以参见说明书中的地址格式说明。
 2. 对大华的NVR增加自适应计算配置文件个数，有些是2个有些是3个，需要自适应，计算后按照对应的规则添加NVR的通道。
 3. 鼠标拾取限定鼠标左键操作。
 4. 悬浮条增加判断，如果处于电子放大期间则鼠标移开不自动隐藏，方便标记当前哪些通道处于电子放大期间。
 5. 鼠标画矩形增加坐标换算，鼠标可能是从左上角到右下角，也可能是从右侧到左侧，而QRect只支持左上角右下角参数，需要自动换算，用户有可能是从右下角到左上角，这些特殊情况也要支持。
+6. 新增切换声卡接口，已经实现了qmedia、vlc、mpv、ffmpeg等内核对应切换声卡接口。有些用户希望每个通道可以指定到不同的声卡来播放声音。
+7. 通道布局类重新调整接口，将2通道和3通道布局移动到x布局中，同时增加自定义x布局接口函数，比如可以手动指定3x6布局这种，非常灵活，方便垂直屏幕展示。
+8. 新增自定义y布局，之前自定义x布局专门是固定行列数的布局，可以自行添加，将一些特殊定制的布局放在自定义y布局中，同时调整诸多函数接口。
 
 **V20231125**
 1. 视频监控布局类videobox新增了指定行数列数接口，新增了指定行列数的默认布局，比如1_2x4表示通道1开始按照2行4列排列，方便垂直屏幕展示比如手机上或者竖屏。
@@ -1030,7 +1034,7 @@ void slot_changeVideo(int channel1, int channel2);
 
 如果需要控制云台移动，先要选择对应的通道，边缘会高亮，进行云台控制的前提是该摄像机要是支持云台的摄像机，很多人以为啥摄像机都可以移动，这是错误的，如果摄像机不支持云台，这个功能就别玩了，玩不起，经常遇到一些人说怎么云台不能用了，一检查尼玛原来摄像机根本没有云台。
 
-本系统云台控制走的是onvif协议，没有使用私有协议，上百家厂家的摄像机，走私有协议会玩死人的，所以统一采用onvif通用协议，需要提前在系统设置中的摄像机管理，搜索摄像机，输入正确的onvif用户信息后一键获取到云台地址。
+本系统云台控制走的是onvif协议，没有使用私有协议，上百家厂家的摄像机，走私有协议会玩死人的，所以统一采用onvif通用协议，需要提前在系统设置中的摄像机管理，搜索摄像机，输入正确的onvif用户信息后一键获取到云台地址。具体操作参见  [设备搜索](##6.3.8 设备搜索)
 
 ### 2.11 设备控制
  ![](snap/2-11-1.jpg)
@@ -1865,6 +1869,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
  ![](snap/8-1-4.jpg)
  ![](snap/8-1-5.jpg)
  ![](snap/8-1-6.jpg)
+ ![](snap/8-1-7.jpg)
 
 #### 8.1.2 基础功能
 1. 支持各种音频视频文件格式，比如mp3、wav、mp4、asf、rm、rmvb、mkv等。
@@ -2266,7 +2271,7 @@ void QUIStyle::getStyle(QStringList &styleNames, QStringList &styleFiles)
 
 | 名称 | 说明 |
 | :------ | :------ |
-| core_audio | 音频播放和录制，包括音频输入输出管理、音频曲线、音频播放、音频录制、音频振幅控件等。 |
+| core_audio | 音频播放和录制，包括音频输入输出设备管理、音频播放、音频录制、音频振幅控件等。 |
 | core_common | 通用函数，包括通用秘钥、通用导航、通用样式、声音播放、日志记录、运行时间记录等。 |
 | core_control | 通用自定义控件，很多系统经常用到的控件全部放在这里，比如开关按钮、设备容器、设备按钮、颜色下拉框等。 |
 | core_dataout | 数据导入导出到xls/pdf和打印类库，极速、跨平台、无依赖。 |
@@ -2416,20 +2421,20 @@ void QUIStyle::getStyle(QStringList &styleNames, QStringList &styleFiles)
 
 ##### 11.3.3.11 模块-core_video
 视频组件继承和依赖关系说明：
-1. videobase是基类组件，video是视频播放组件，依赖基类组件，videoffmpeg是具体的内核实现组件，依赖视频播放组件，videosave是视频保存组件，依赖基类组件。
+1. videobase是基类组件，video是视频播放组件，依赖基类组件，videoffmpeg是具体的内核实现组件，依赖视频播放组件。
 2. video组件中的videothread解码线程类继承自videobase基类组件中的abstractvideothread。
 3. video组件中的videowidgetx视频显示类继承自videobase基类组件中的abstractvideowidget。
-4. videosave组件中的saveaudio和savevideo继承自videobase组件中的abstractsavethread。
-5. videoffmpeg组件中的ffmpegthread继承自video组件中的videothread。
-6. videoffmpeg组件中的ffmpegsave继承自videobase组件中的abstractsavethread。
-7. 按照此规则还有其他内核比如vlc组件中的vlcthread也是继承自videothread，mpv组件中的mpvthread也是继承自videothread。这样新增一种内核只要具体实现部分处理函数即可应用整个视频框架。
-8. 通过多层基类继承关系，使得动态挂载任意解码内核极为方便。
-9. 为何在video视频组件的基础上还要提炼一个videobase基类组件？因为该基类组件还可以提供给QCamera本地摄像头采集组件使用，基类中的变量、函数、处理逻辑几乎一致，但是又有特殊性，所以需要分开再提炼出videobase基类。
+4. videoffmpeg组件中的ffmpegthread继承自video组件中的videothread。
+5. videoffmpeg组件中的ffmpegsave继承自videobase组件中的abstractsavethread。
+6. 按照此规则还有其他内核比如vlc组件中的vlcthread也是继承自videothread，mpv组件中的mpvthread也是继承自videothread。这样新增一种内核只要具体实现部分处理函数即可应用整个视频框架。
+7. 通过多层基类继承关系，使得动态挂载任意解码内核极为方便。
+8. 为何在video视频组件的基础上还要提炼一个videobase基类组件？因为该基类组件还可以提供给camera本地摄像头采集组件使用，基类中的变量、函数、处理逻辑几乎一致，但是又有特殊性，所以需要分开再提炼出videobase基类。
 
 | 名称 | 说明 |
 | :------ | :------ |
 | videobox | 监控画面切换控件，将所有通道切换处理全部集中到一个类，通用异形布局切换函数，可以参考进行自定义异形布局，通道布局切换发出信号通知，支持自定义子菜单布局内容。 |
-| videohelper | 视频播放内核辅助函数，比如根据url地址取出ip地址、校验网络地址是否可达、检查地址是否正常、加载解析内核到下拉框、根据地址获取本地摄像头参数、创建视频采集类、对采集线程设置参数等。 |
+| videohelper | 视频相关辅助函数，比如根据url地址取出ip地址、校验网络地址是否可达、检查地址是否正常、根据地址获取本地摄像头参数、获取本地桌面采集参数、创建视频采集类、对采集线程设置参数等。 |
+| videoutil | 视频相关辅助函数，加载视频内核、视频地址、视频模式、解码策略、编码策略、硬件加速、通信协议、缓存时间、读取超时等。 |
 | videomanage | 视频线程管理类，全局单例，将所有视频控件发给此类管理，负责挨个打开视频、应用录像计划等。 |
 | videoplayback | 视频回放控件，支持多个通道，显示每个通道对应的视频段。 |
 | videostruct | 视频播放组件结构体定义类，包括解析内核枚举值、视频类型枚举值、解码策略枚举值、视频采集参数结构体。 |
@@ -2447,18 +2452,20 @@ void QUIStyle::getStyle(QStringList &styleNames, QStringList &styleFiles)
 | abstractvideowidget | 视频显示控件基类， |
 | audioplayer | 音频播放类，空的，纯粹为了在没有Qt音频播放类QAudioOutput的时候使用，有些Qt版本或者嵌入式板子环境未必有这个类，但是又不能影响整个组件的运行，于是定义了空的类，函数正常调用但是不做任何处理。 |
 | bannerwidget | 悬浮工具栏控件，可以设置各种颜色、按钮图标集合、按钮名称集合、按钮提示信息集合等，悬浮条位置支持上下左右四个方位。 |
+| filterhelper | 滤镜相关辅助类，传入旋转角度获取旋转滤镜字符串、根据标签信息获取对应滤镜字符串、根据图形信息获取对应滤镜字符串、转换滤镜字符串到ffmpeg格式、传入标签队列和图形队列获取滤镜字符串。此类主要给ffmpeg内核、qtav内核、mdk内核使用。 |
+| urlhelper | 通用地址辅助类，设备厂家类型结构体、地址参数结构体，各个厂家的实时及回放视频流字符串函数，根据url播放地址获取地址对应的各种信息比如IP地址和端口等。 |
 | imagelabel | 图片标签控件，多线程绘制传入的图片，性能比setpixmap更优。 |
 | widgethelper | 窗体相关辅助函数，包括传入图片尺寸和窗体区域及边框大小返回居中区域(scaleMode: 0-自动调整 1-等比缩放 2-拉伸填充)、绘制矩形区域比如人脸框、绘制点集合多边形路径比如三角形、绘制路径集合、显示截图预览等。 |
 
 ##### 11.3.3.13 模块-core_videoffmpeg
 | 名称 | 说明 |
 | :------ | :------ |
+| ffmpegfilter | 滤镜相关静态函数，传入滤镜结构体数据获取滤镜字符串，初始化滤镜、释放滤镜数据。在ffmpegthread中调用。 |
 | ffmpeghelper | 相关辅助函数，包括打印输出各种信息、打印设备列表和参数、格式枚举值转字符串、视频帧旋转、通用硬解码、通用软解码、通用软编码、释放数据帧数据包、超时回调(包括打开超时和读取超时)等。 |
-| ffmpegrun | 执行ffmpeg命令，包括yuv420p文件转mp4文件、mp4文件转yuv420p文件、wav文件转aac文件、合并aac以及h264文件或者mp4文件到带声音的mp4文件、转换视频文件到mp4文件等。 |
-| ffmpegrunthread | 执行ffmpeg命令行线程，可以设置执行完成是否删除转换前的文件、可执行文件路径，传入需要执行的指令即可。 |
-| ffmpegsave | 视频存储类，用于保存h264和mp4文件。 |
+| ffmpegsave | 视频存储类，用于保存h264和mp4文件，同时也可用于推流。 |
 | ffmpegsync | 音视频同步线程类，解码后的音视频数据发给本类进行时间同步处理，采用的外部时钟同步策略。音视频播放的进度也在本类中。 |
 | ffmpegthread | 视频解码线程核心，从打开地址、分配解码器、初始化参数、取出音视频数据解码、关闭并释放资源等都在本类实现。 |
+| ffmpegutil | 辅助函数，比如打印输出编码解码信息、打印编码器的相关参数、打印设备列表和参数、获取输入输出设备名称集合、视频帧旋转等。 |
 
 ##### 11.3.3.14 模块-core_videoopengl
 | 名称 | 说明 |
@@ -2469,14 +2476,7 @@ void QUIStyle::getStyle(QStringList &styleNames, QStringList &styleFiles)
 | yuvglwidget | 空类，用于没有opengl的Qt版本中保证程序能够继续运行。 |
 | yuvopenglwidget | 继承自QOpenGLWidget的YUV格式OPENGL绘制窗体。 |
 
-##### 11.3.3.15 模块-core_videosave
-| 名称 | 说明 |
-| :------ | :------ |
-| saveaudio | 音频保存类，继承自videobase组件中的abstractsavethread，可以设置音频文件类型、采样率、通道数等，支持pcm、wav、aac三种格式。 |
-| savevideo | 视频保存类，继承自videobase组件中的abstractsavethread，可以设置视频文件类型、宽度、高度、帧率，支持yuv原始数据格式。 |
-| savehelper | 音视频保存相关辅助函数，包括pcm文件转wav文件、aac文件采样率下标、aac文件添加adts头等。 |
-
-##### 11.3.3.16 模块-core_webview
+##### 11.3.3.15 模块-core_webview
 | 名称 | 说明 |
 | :------ | :------ |
 | webcore.pri | 通用的根据不同的Qt版本、不同的编译器环境、不同的操作系统，加载对应的浏览器内核模块和定义不同的变量。 |
