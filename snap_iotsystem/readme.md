@@ -73,9 +73,8 @@
 3. 个人主页：[https://blog.csdn.net/feiyangqingyun](https://blog.csdn.net/feiyangqingyun)
 4. 知乎主页：[https://www.zhihu.com/people/feiyangqingyun](https://www.zhihu.com/people/feiyangqingyun)
 5. 产品主页：[https://blog.csdn.net/feiyangqingyun/article/details/97565652](https://blog.csdn.net/feiyangqingyun/article/details/97565652)
-6. 在线文档：[https://feiyangqingyun.gitee.io/qwidgetdemo/iotsystem/](https://feiyangqingyun.gitee.io/qwidgetdemo/iotsystem/)
-7. 体验地址：[https://pan.baidu.com/s/1ZxG-oyUKe286LPMPxOrO2A](https://pan.baidu.com/s/1ZxG-oyUKe286LPMPxOrO2A) 提取码：o05q 文件名：bin_iotsystem.zip。
-8. 文章导航：[https://qtchina.blog.csdn.net/article/details/121330922](https://qtchina.blog.csdn.net/article/details/121330922)
+6. 体验地址：[https://pan.baidu.com/s/1ZxG-oyUKe286LPMPxOrO2A](https://pan.baidu.com/s/1ZxG-oyUKe286LPMPxOrO2A) 提取码：o05q 文件名：bin_iotsystem.zip。
+7. 文章导航：[https://qtchina.blog.csdn.net/article/details/121330922](https://qtchina.blog.csdn.net/article/details/121330922)
 
 ### 0.4 特别说明
 1. 主界面顶部为一级菜单导航，单击切换页面，软件的左侧为二级菜单导航。
@@ -842,7 +841,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | 名称 | 说明 |
 | :------ | :------ |
 | 3rd_qcustomplot | 第三方精美图表控件qcustomplot，Qt自带的qchart功能有限而且不支持大量数据。 |
-| 3rd_qextserialport | 第三方串口通信qextserialport，这个类比较稳定可靠，经过了几十个项目持续数十年运行的考验，不用Qt自带的串口类。 |
+| 3rd_qextserialport | 第三方串口通信qextserialport，这个类比较稳定可靠，经过了几十个项目持续数十年运行的考验，不用Qt自带的串口类。**这个库后面移动到了core_iot组件中。** |
 | 3rd_qtpropertybrowser | 第三方属性控件，指定控件自动读取对应的属性形成属性栏。 |
 | 3rd_smtpclient | 第三方发送邮件组件，走底层socket协议发送邮件。 |
 
@@ -1068,7 +1067,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | frmconfig | 系统设置模块，包括基本设置、端口管理、控制器管理、探测器管理、联动设置、类型管理等。 |
 | frmconfig2 | 其他设置模块，包括地图管理、用户管理、组态设计、设备调试等。 |
 | frmdata | 日志查询模块，包括用户日志、运行日志、报警日志等。 |
-| frmmain | 主界面模块，包括软件主界面、模拟调试工具等。 |
+| frmmain | 主界面模块，包括软件主界面等。 |
 | frmother | 其他模块，包括封装的设备信息面板，设备回控等。 |
 | frmview | 视图模块，包括数据监控、设备面板、地图监控、曲线监控等。 |
 
@@ -1113,7 +1112,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | 名称 | 说明 |
 | :------ | :------ |
 | frmmain | 系统主界面，采用堆栈窗体，加载各个子模块。 |
-| frmtool | 模拟调试工具，可选择设备采集模拟或者数据库模拟。 |
+| frmtool | 模拟调试工具，可选择设备采集模拟或者数据库模拟。这个目前已经是独立的项目，不在本项目中。 |
 | frmtimecpu | 时间和CPU内存模块，一般放在系统的右上角。 |
 
 
@@ -1211,6 +1210,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | :----------- | :----------- | :------ | :--- | :------- |
 | TypeID       | 编号         | INTEGER |      | 主键自增 |
 | DeviceType   | 控制器类型   | VARCHAR | 20   |          |
+| DataFormat   | 数据格式     | VARCHAR | 20   |          |
 | NodeNumber   | 探测器数量   | INTEGER | 5    |          |
 | NodeType     | 探测器类型   | VARCHAR | 20   |          |
 | NodeClass    | 气体种类     | VARCHAR | 20   |          |
@@ -1291,7 +1291,12 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
  ![](snap/10-1-2.jpg)
  ![](snap/10-1-3.jpg)
 
-本系统专门配备了设备模拟工具，用来在没有外接真实设备的时候，模拟modbus协议数据，支持多个设备，支持串口和网络方式，可切换正常数据和报警数据，反应到主程序上。对应主程序中两种端口，一种是串口端口（这个可以用虚拟串口工具 Virtual Serial Port 虚拟一对串口用于测试），一种是网络端口（注意选择的监听主机地址和端口）。数据库模拟对应程序中的数据库采集运行模式，可以勾选自动模拟复选框。随机生成状态字段数据。
+- 本系统专门配备了设备模拟工具，目前叫物联网组件应用示例，用来在没有外接真实设备的时候，模拟modbus协议数据。
+- 支持多个设备，支持串口和网络方式，可随机生成正常数据和报警数据，反应到主程序上。
+- 如果需要模拟串口设备数据，由于电脑很可能没有真实的串口，需要用虚拟串口工具 Virtual Serial Port 生成一对串口设备用于测试。
+- 设备模拟工具中的设备地址，填0表示自动处理，也就是收到什么地址就应答什么地址。
+- 设备模拟-Com中，需要填写对应的串口号和波特率，再单击打开串口。
+- 设备模拟-Tcp中，需要填写对应的监听端口，选择数据模式，如果是rtu over tcp则选择Rtu模式，否则选择Net模式。
 
 ### 10.2 modbus仿真
  ![](snap/10-2-1.jpg)
@@ -1356,11 +1361,36 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 ### 10.9 秘钥控制
  ![](snap/10-9-1.jpg)
 
-本系统自带了秘钥控制机制，需要配套秘钥生成器管理秘钥，秘钥有两种，一种是控制设备数量、运行时间的秘钥，对应文件为key.db，一种是通过读取机器码生成对应唯一秘钥，对应文件为key.lic，默认开启的是key.db，如果需要开启机器码验证这种，需要在appinit.cpp的void AppInit::initOther()函数中开启，对应代码为 CommonKey::checkLicense(QUIHelper::appPath() + "/db/key.lic");默认注释的。
-
-如果开启了机器码秘钥验证，现场用户如果没有key.lic文件，运行会提示秘钥文件丢失，此时需要用秘钥生成器随便生成一个机器码文件，发给用户拷贝到可执行文件下的db目录下，和key.db文件一起。如果key.lic文件不正确，会提示秘钥文件错误，请联系供应商! 已自动复制机器码!\n机器码:xxxx，用户自动粘贴发给供应商，供应商自己用秘钥生成器填入机器码，单击生成即可。
+1. 由于支持多种功能限制，所以每一种功能都做了开关来开启，只有当开关开启后，对应设置的值才会起作用。
+2. 到期日期用来控制到期后限制部分功能，但是程序可以继续正常运行，也不弹窗提示。
+3. 到期时间用来控制程序可以用到哪一天，到期后程序无法运行，会自动弹窗提示过期。
+4. 运行时间用来控制每次程序启动后，可以运行多久，单位分钟，如果设置30则表示只能运行30分钟，程序启动后开始计时，直到运行满30分钟自动弹窗提示。关闭弹窗自动退出程序，再次打开程序还可以继续运行30分钟，如此往复。
+5. 机器标识也就是机器码，支持windows、linux、mac系统，每台设备都是唯一，可以选择开启或者不开启机器标识的限制。开启后一个秘钥文件只能用到唯一的一台设备上。
+6. 最大数量用来控制软件中支持的设备的最大数量，比如控制摄像头最多添加5个，超过则弹出提示不允许继续添加。
+7. 加密数值用来生成秘钥的唯一密码，一般不同的软件可以指定不同的加密数值，这个数值用于加密解密。
+8. 到期日期和到期时间后面会显示剩余多少天字样，如果已经过期，则显示超过多少天字样。
+9. 单击本机标识按钮，自动识别本机的机器码，填入文本框中。
+10. 单击读取秘钥，自动读取当前目录下的key.lic文件，识别对应的内容并解析反馈显示到界面上。
+11. 单击写入秘钥，写入秘钥文件。然后可以将新生成的秘钥文件，复制到可执行文件对应目录，同文件替换即可。
 
 ## 11 版本说明
+
+**V20241215**
+1. 采用最新的秘钥机制，具体介绍 [https://qtchina.blog.csdn.net/article/details/119724962](https://qtchina.blog.csdn.net/article/details/119724962) 。
+2. 超时重新读取增加对0的处理，如果设置的最大读取时间0则表示不启用自动跳过离线设备机制，每次轮询就算离线的设备也会处理。默认60s表示60s重新探测下所有的设备。有些用户可能希望永远都要去轮询，则这个值设置成0即可。
+3. 增加了采集间隔等参数的非法值过滤，比如设置采集间隔约定最小20ms以上，之前0也可以会导致出问题。
+4. 修复控制器名称修改后，探测器那边对应名称没有修改，重新启动程序会崩溃的BUG。增加了全局标志位，数据不正常不会启动服务，只有当数据修改到正常后才能启动服务。
+
+**V20240910**
+1. 增加写单个寄存器和连续写入多个寄存器功能。
+2. 增加设置数据长度参数，比如有些端口是2字节表示一个数据，有些是4字节表示一个数据，可以通过配置参数修改，默认是2字节，常规的都是2字节。
+3. 重新增加数据转换静态类，专门将字节数组和短整型、长整型、浮点型等数据转换放到这里，同时增加了数据格式的参数，比如高字节在前还是低字节在前，4字节的就有四种排列。比如 Short_AB、Short_BA、Long_ABCD、Long_CDAB、Long_BADC、Long_DCBA、Float_ABCD、Float_CDAB、Float_BADC、Float_DCBA ，这样就涵盖了所有顺序的情况，满足各种厂家要求。
+4. 类型信息表增加数据格式字段，不同的控制器对应不同的数据格式。在采集信息的时候，按照这个数据格式来解析数据。
+
+**V20240618**
+1. 物联网组件内核增加发送自定义数据接口，复用现有的已经存在的链路发送自定义数据，这样不用重复建立连接，而且执行这些数据优先级高于采集数据。
+2. 设备树状列表增加右键菜单，识别当前设备属于哪个端口哪个地址，执行指定的命令。对应增加了通用的静态函数发送。
+3. 增加高分屏缩放开关配置参数，默认开启，开启后自适应高分屏缩放设置，比如电脑设置的缩放150%，则整体界面按照1.5倍放大。
 
 **V20230927**
 1. 彻底重写采集内核，单独模块core_iot，在原有的rtu_com/rtu_tcp基础上增加了rtu_udp/rtu_web/tcp/udp/web等多种方式的数据采集，同时支持RTU数据模式和网络数据模式。

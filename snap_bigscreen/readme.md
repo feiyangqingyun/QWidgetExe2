@@ -1,22 +1,26 @@
 
 ## 0 前言说明
 ### 0.1 编译说明
-1. 编译后可执行文件在和源码文件夹同级目录的bin文件夹下，配置文件bigscreen.ini文件在可执行文件所在目录下的config文件夹下，数据库文件在可执行文件所在目录下的db文件夹下。
+1. 编译后可执行文件在和源码文件夹同级目录的bin文件夹下，配置文件bigscreen.ini（软件运行后自动生成）文件在可执行文件目录下，数据库文件在可执行文件所在目录下的db文件夹下。
 2. 编译后记得将源码下的file目录下（切记是file目录下而不是file目录）的所有文件复制到可执行文件同一目录。
 3. 大屏中用到了视频监控模块，所以还需要拷贝ffmpeg的动态库文件到可执行文件同一目录，编译成功后记得将dll_ffmpeg4（64位的构建套件对应的是dll_ffmpeg4_64）对应目录下的库复制到可执行文件同一目录。
 4. dll+lib 链接: https://pan.baidu.com/s/13LDRu6mXC6gaADtrGprNVA 提取码: ujm7。
 5. 如果程序异常结束并提示 miniblink.dll 文件不存在请先拷贝，你还需要在dll+lib下载地址的地方找到 dll_miniblink.zip 下载并解压出来拷贝文件到可执行文件目录。一般这个是因为你用的mingw编译器，win+qt5.6以上+mingw编译器，没有浏览器控件，采用的miniblink第三方浏览器控件。
-6. 本系统支持ffmpeg2/3/4/5/6所有版本，默认是ffmpeg4，如果要支持XP需要用ffmpeg2/3。如果是在linux/mac系统上编译记得查看core_videoffmpeg/下面的 linux系统和mac系统上库的用法.txt/编译阶段linux系统ffmpeg库放置位置.jpg/运行阶段linux系统ffmpeg库放置位置.jpg。
-7. 当然你也可以选择不启用视频监控模块，只需要将pro中的videoffmpeg改成videoffmpeg1即可。
+6. 本系统支持ffmpeg2/3/4/5/6/7所有版本，默认是ffmpeg4，如果要支持XP需要用ffmpeg2/3。如果是在linux/mac系统上编译记得查看core_videoffmpeg/下面的 linux系统和mac系统上库的用法.txt/编译阶段linux系统ffmpeg库放置位置.jpg/运行阶段linux系统ffmpeg库放置位置.jpg。
+7. 当然你也可以选择不启用视频监控模块，只需要将pro中的ffmpeg改成ffmpeg1即可。
 8. 目录下的bigscreen.sql为数据库脚本，可以在系统设置中单击初始化数据来执行。bigscreen_mysql.sql脚本为Navicat工具对应的导入脚本。
-9. 如果发现地图打不开，请先确认file目录下的所有文件有没有拷贝过去，还有就是将MapBaiDu::Instance()->setSaveFile(false); 改成true;
-10. 如果是用vs+qt可能报错 error LNK2026: 模块对于 SAFESEH 映像是不安全的。
+9. 如果发现地图打不开，请先确认file目录下的所有文件有没有拷贝过去，还有就是将MapBaiDu::Instance()->setSaveFile(false); 改成true。
+10. 代码行数大概3W行，注释详细，非常便于阅读和使用。
+11. 如果是用vs+qt可能报错 error LNK2026: 模块对于 SAFESEH 映像是不安全的。
 - 第一步：打开该项目的“属性页”对话框。
 - 第二步：单击“链接器”文件夹。
 - 第三步：单击“命令行”属性页。
 - 第四步：将 /SAFESEH:NO 键入“附加选项”框中，然后点击应用。
 
 ### 0.2 版本说明
+**V20240801**
+1. 将echart模块独立成core_echarts组件，并单独目录存放相关文件，之前全部堆在config目录下，不准确。
+2. 
 
 **V20220718**
 1. 中间地图模块增加隐藏地图功能，只保留最顶部的标题栏。
@@ -58,9 +62,8 @@
 3. 个人主页：[https://blog.csdn.net/feiyangqingyun](https://blog.csdn.net/feiyangqingyun)
 4. 知乎主页：[https://www.zhihu.com/people/feiyangqingyun](https://www.zhihu.com/people/feiyangqingyun)
 5. 产品主页：[https://blog.csdn.net/feiyangqingyun/article/details/97565652](https://blog.csdn.net/feiyangqingyun/article/details/97565652)
-6. 在线文档：[https://feiyangqingyun.gitee.io/qwidgetdemo/bigscreen/](https://feiyangqingyun.gitee.io/qwidgetdemo/bigscreen/)
-7. 体验地址：[https://pan.baidu.com/s/1d7TH_GEYl5nOecuNlWJJ7g](https://pan.baidu.com/s/1d7TH_GEYl5nOecuNlWJJ7g) 提取码：01jf 文件名：bin_bigscreen.zip。
-8. 文章导航：[https://qtchina.blog.csdn.net/article/details/121327452](https://qtchina.blog.csdn.net/article/details/121327452)
+6. 体验地址：[https://pan.baidu.com/s/1d7TH_GEYl5nOecuNlWJJ7g](https://pan.baidu.com/s/1d7TH_GEYl5nOecuNlWJJ7g) 提取码：01jf 文件名：bin_bigscreen.zip。
+7. 文章导航：[https://qtchina.blog.csdn.net/article/details/121327452](https://qtchina.blog.csdn.net/article/details/121327452)
 
 ### 0.4 功能特点
 1. 采用分层设计，整体总共分三级界面，一级界面是整体布局，二级界面是单个功能模块，三级界面是单个控件。
