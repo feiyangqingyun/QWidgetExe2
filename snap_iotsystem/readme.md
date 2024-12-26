@@ -2,13 +2,13 @@
 ## 0 前言说明
 ### 0.1 编译说明
 1. 编译完成后记得将源码下的file目录下（切记是file目录下而不是file目录）的所有文件复制到可执行文件同一目录。可执行文件目录bin在当前源码下，和一堆core开头的目录同级别，编译后会自动生成bin目录。
-2. db目录下的 iotsystem.mbs 为modbus模拟数据模板，可以用modbus slave软件打开。
-3. db目录为数据库文件夹，iotsystem.db为sqlite数据库文件，sql结尾的为建库脚本，可以自行改成mysql数据库。
+2. data目录下的 iotsystem.mbs 为modbus模拟数据模板，可以用modbus slave软件打开。
+3. data目录为数据库文件夹，iotsystem.db为sqlite数据库文件，sql结尾的为建库脚本，可以自行改成mysql数据库。
 4. 在端口设置中如果不填写串口号则取网络地址，填了串口号则以串口号优先。
-5. 如果导出的数据到excel以后，打开文件有提示，请先执行db目录下的excel禁止提示.reg文件。
+5. 如果导出的数据到excel以后，打开文件有提示，请先执行data目录下的excel禁止提示.reg文件。
 6. 系统中的组态模块用到了designer模块，有些linux系统安装的Qt开发环境可能会不自带这个模块，编译的时候报错提示 Project ERROR: Unknown module(s) in QT: designer，需要手动打命令安装下，sudo apt-get install libqt5designer5 或者 sudo apt-get install qttools5-dev 。
 7. 如果编译运行后发现某些模块没有比如图片地图，可以去系统设置中的功能激活处勾选重启应用。
-8. 组态设计中的控件是通过加载动态库插件文件产生，具体说明参考本手册中的 3其他设置/3.4组态设计。
+8. 组态设计中的控件是通过加载动态库插件文件产生，具体说明参考本手册中的 [组态设计](###3.4 组态设计)。
 
 ### 0.2 功能特点
 #### 0.2.1 软件模块
@@ -819,12 +819,10 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 - 整体的框架不会改变，可能会有新增加子模块和代码，具体以最新的代码为准。
 - 程序会一直更新完善，不断迭代中。
 
-### 8.1 整体代码结构
- ![](snap/8-1-1.jpg)
-
+### 8.1 整体结构
 本系统采用模块化的设备，有用到第三方开源类库比如串口通信qextserialport，全部放在3rd下面，有用到很多自己封装完善的通用类库比如数据导入导出组件，全部放在core下面，设备通信和辅助处理全部放在class下面，所有界面全部放在ui下面，相当于一个个小的组件合起来，最终形成了整个监控系统的完整代码。
 
-### 8.2 主模块说明
+### 8.2 模块说明
 | 名称 | 说明 |
 | :------ | :------ |
 | 3rd | 一些第三方开源的类库，比如串口通信qextserialport。 |
@@ -832,10 +830,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | core | 本人一直持续更新完善的通用的类库，比如数据导入导出组件。 |
 | ui | 所有的界面都分门别类放在这里。 |
 
-### 8.3 子模块说明
-#### 8.3.1 第三方类库
- ![](snap/8-3-1.jpg)
-
+### 8.3 第三方库
 这里放的全部是第三方开源的轮子，感谢开源、感谢github、gitee等开源社区。具体代码不做过多说明，网上会有很多介绍和使用说明。
 
 | 名称 | 说明 |
@@ -845,9 +840,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | 3rd_qtpropertybrowser | 第三方属性控件，指定控件自动读取对应的属性形成属性栏。 |
 | 3rd_smtpclient | 第三方发送邮件组件，走底层socket协议发送邮件。 |
 
-#### 8.3.2 通信及辅助类
- ![](snap/8-3-2.jpg)
-
+### 8.4 通信辅助
 这里放的都是一些系统初始化、设备通信相关的类。
 
 | 名称 | 说明 |
@@ -857,18 +850,14 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | device | 设备通信管理，比如设备采集处理、数据库采集、报警联动等。|
 | usercontrol | 当前系统的用到的自定义控件全部放在这里，项目通用的自定义控件放在core_control中。 |
 
-##### 8.3.2.1 模块-api
- ![](snap/8-3-2-1.jpg)	
-
+#### 8.4.1 模块-api
 | 名称 | 说明 |
 | :------ | :------ |
 | dbdata | 将数据库表映射到全局变量数据队列，比如将端口信息表portinfo转成QStringList存放一行行数据，这样在程序中运算比较速度极快，直接内存比较，不用每次都去读取数据库。 |
 | dbquery | 所有的数据库查询插入更新等操作都在这里，比如查询探测器信息表、控制器信息表、插入日志记录等。 |
 | sendserver | 通用的发送短信和邮件管理类，因为发送的内容是一致的所有统一一个类来管理，调用同一个函数就行。 |
 
-##### 8.3.2.2 模块-app
- ![](snap/8-3-2-2.jpg)
-
+#### 8.4.2 模块-app
 | 名称 | 说明 |
 | :------ | :------ |
 | appconfig | 配置参数类，整个系统的配置参数存放在ini文件中，跨平台，所有参数都对应一个变量，读取配置参数的时候将值赋值给变量，写入的时候将变量值写入到配置文件。 |
@@ -877,9 +866,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | appinit | 程序初始化类，在main函数中，会先执行这个初始化的类，比如初始化皮肤、字体、数据库、样式等操作，这些都是要优先在窗体加载前执行的，执行完毕以后再打开窗体主界面。 |
 | appstyle | 全局样式管理类，整个系统的样式全部放在这里，一般加载流程是先读取样式表文件，然后将本系统独特的样式（比如开关按钮、视频监控、云台仪表盘）内容追加到后面，最后统一设置全局样式，在main函数中加载，和appinit类一样放在最前面执行。 |
 
-##### 8.3.2.3 模块-device
- ![](snap/8-3-2-3.jpg)	
-
+#### 8.4.3 模块-device
 | 名称 | 说明 |
 | :------ | :------ |
 | alarmlink | 报警联动处理类，探测器报警后，根据联动设置中设置的规则，将发送联动指令到总线上的设备。 |
@@ -892,18 +879,14 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | udpreceive | 数据转发UDP接收端，接收到转发的数据以后解析并反映到界面上。 |
 | udpsend | 数据转发UDP发送端，负责将采集到的数据转发出去。 |
 
-##### 8.3.2.4 模块-usercontrol
- ![](snap/8-3-2-4.jpg)	
-
+#### 8.4.4 模块-usercontrol
 | 名称 | 说明 |
 | :------ | :------ |
 | gaugecar | 汽车仪表盘，用来指示气体的值。 |
 | gaugespeed | 速度仪表盘，用来指示气体的值。 |
 | selectwidget | 描点跟随窗体控件，用在属性设计过程中拖曳控件，然后拉伸拖动。 |
 
-#### 8.3.3 核心通用类库
- ![](snap/8-3-3.jpg)
-
+### 8.5 核心类库
 这里放的全部是个人一直持续更新完善的独创的轮子，所有的项目都公用这些轮子，用到哪个就包含哪个进来，更新只需要更新轮子代码就行。
 
 | 名称 | 说明 |
@@ -918,13 +901,10 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | core_qthelper | 通用的辅助类，包括自定义对话框，全局辅助函数，图形字体等。 |
 | core_send | 多线程短信发送和邮件发送类，功能类似所有放在一起。 |
 
-##### 8.3.3.1 模块-core_common
- ![](snap/8-3-3-1.jpg)
-
+#### 8.5.1 模块-core_common
 | 名称 | 说明 |
 | :------ | :------ |
 | base64helper | 图片及文字和base64编码之间转换的类。 |
-| commonkey | 通用秘钥管理类，指定校验秘钥文件，可设置运行时间、设备数量等限制，支持根据硬件指纹特征生成机器码文件等。 |
 | commonnav | 通用菜单导航管理类，用来控制和显示顶部导航栏、左侧导航栏的样式。很多子界面需要用到，所以封装成一个专门管理这个的类。 |
 | commonstyle | 通用样式管理类，比如Qt自带类窗体样式、自定义控件样式、分页导航样式、导航按钮样式、开关按钮样式等。相当于将多个项目常用的自定义样式封装一起做成通用。 |
 | framelesswidget2 | 无边框窗体拉伸类，边框四周八个方位都可以自由拉伸，可设置是否允许拖动和拉伸。 |
@@ -932,9 +912,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | savelog | 日志钩子类，将系统中所有的打印信息转为日志存储或者输出到网络等，可以开启用来打印输出日志信息。 |
 | saveruntime | 保存运行时间类，用来存储系统启动后每隔一段时间就输出一条记录用来记录启动后软件运行了多久，方便分析问题。 |
 
-##### 8.3.3.2 模块-core_control
- ![](snap/8-3-3-2.jpg)
-
+#### 8.5.2 模块-core_control
 | 名称 | 说明 |
 | :------ | :------ |
 | bottomwidget | 通用底部状态栏控件，可以设置软件名称、版本号、运行时间等。 |
@@ -947,9 +925,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | switchbutton | 开关按钮控件，在系统设置中存在大量该控件。 |
 | xslider | 滑动条控件，在原有滑动条基础上增加了鼠标按下立即定位等。 |
 
-##### 8.3.3.3 模块-core_customplot
- ![](snap/8-3-3-3.jpg)
-
+#### 8.5.3 模块-core_customplot
 | 名称 | 说明 |
 | :------ | :------ |
 | customplot | 自定义图表控件主类，使用的时候只要new这个类就行。 |
@@ -961,9 +937,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | customplottracer | 自定义图层绘制十字线，也叫游标，定位线。 |
 | smoothcurve | 平滑曲线算法类，内置多种平滑算法，可以自行增加其他算法。 |
 
-##### 8.3.3.4 模块-core_dataout
- ![](snap/8-3-3-4.jpg)
-
+#### 8.5.4 模块-core_dataout
 | 名称 | 说明 |
 | :------ | :------ |
 | datacreat | 通用数据报表内容创建类，比如生成表格格式的html内容，然后赋值给dataprint直接打印，里面举例了图文混排的报告内容，后期会不断增加其他模板，也可以自行增加其他模板数据。 |
@@ -973,9 +947,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | dataprint | 数据打印到pdf及纸张，支持多线程。 |
 | dataxls | 数据导出到xls类，支持多线程导出。 |
 
-##### 8.3.3.5 模块-core_db
- ![](snap/8-3-3-5.jpg)
-
+#### 8.5.5 模块-core_db
 | 名称 | 说明 |
 | :------ | :------ |
 | dbcleanthread | 自动清理数据线程类。 |
@@ -988,9 +960,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | dbpagemodel | 数据库翻页类数据模型。 |
 | navpage | 分页导航控件。 |
 
-##### 8.3.3.6 模块-core_form
- ![](snap/8-3-3-6.jpg)
-
+#### 8.5.6 模块-core_form
 | 名称 | 说明 |
 | :------ | :------ |
 | formhelper | 封装的导入导出、导出数据到xls/pdf和打印数据、自动备份数据、保存最后打开的文件夹等。 |
@@ -1000,9 +970,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | frmlogout | 通用用户退出界面类，三次错误关闭，下拉可选用户，内置超级密码。 |
 | userhelper | 通用用户权限管理类，内置7种类型权限，对应权限名称可自定义，一般在用户切换对应界面或者单击了对应功能按钮的时候触发。 |
 
-##### 8.3.3.7 模块-core_qthelper
- ![](snap/8-3-3-7.jpg)
-
+#### 8.5.7 模块-core_qthelper
 本组件涵盖的功能较多，所以采用了分层管理代码结构。
 
 | 名称 | 说明 |
@@ -1033,13 +1001,13 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | qthelpernet | 获取本机IP地址集合，获取外网IP地址，判断IP、MAC等是否合法，下载网络文件，IP地址字符串与整型互相转换。 |
 | qthelperother | 初始化数据库文件，设置系统时间、开机启动，设置图标到按钮，写入临时消息的文本文件等。 |
 
-##### 8.3.3.8 模块-core_send
+#### 8.5.8 模块-core_send
 | 名称 | 说明 |
 | :------ | :------ |
 | sendemailthread | 多线程发送邮件类，支持附件，可设置多个抄送。 |
 | sendmsgthread | 多线程收发短信类，支持长短信发送和多个收件人。 |
 
-##### 8.3.3.9 模块-core_iot
+#### 8.5.9 模块-core_iot
 | 名称 | 说明 |
 | :------ | :------ |
 | iotdata | modbus等协议的通用数据收发函数，传入地址和指令组合成要发送的数据。 |
@@ -1052,9 +1020,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 
 **modbus子类都继承自iotmodbusbase基类，子类只负责打开对应的端口收发数据，具体的协议解析在基类中。后面如果还有其他的数据采集可以采用继承自iotmodbusbase基类就行。**
 
-#### 8.3.4 界面UI
- ![](snap/8-3-4.jpg)
-
+### 8.6 窗体界面
 **界面说明**
 - 这里分门别类存放的各种功能集合的界面类。
 - 每个类都一个ui文件、一个h头文件、一个cpp实现文件。
@@ -1071,9 +1037,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | frmother | 其他模块，包括封装的设备信息面板，设备回控等。 |
 | frmview | 视图模块，包括数据监控、设备面板、地图监控、曲线监控等。 |
 
-##### 8.3.4.1 模块-frmconfig
- ![](snap/8-3-4-1.jpg)
-
+#### 8.6.1 模块-frmconfig
 | 名称 | 说明 |
 | :------ | :------ |
 | frmconfig | 系统设置模块主界面，采用堆栈窗体形式，加载多个子界面比如控制器管理、探测器管理等。 |
@@ -1085,9 +1049,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | frmconfigsystem | 系统设置，包括基本设置、数据库设置、网络转发配置、日志设置、颜色配置、短信告警设置、邮件转发设置等。 |
 | frmconfigtype | 类型设置，为了增强灵活性拓展性，系统中的控制器类型、探测器类型、气体种类、气体符号等信息都可以在这里自定义。 |
 
-##### 8.3.4.2 模块-frmconfig2
- ![](snap/8-3-4-2.jpg)
-
+#### 8.6.2 模块-frmconfig2
 | 名称 | 说明 |
 | :------ | :------ |
 | frmconfig2 | 其他设置模块主界面，采用堆栈窗体形式，加载多个子界面比如用户管理、位置调整等。 |
@@ -1096,9 +1058,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | frmconfigposition | 位置调整，可以对地图上的设备拖动调整到合适的位置。 |
 | frmconfigscada | 自定义控件属性设计器，演示如何加载自定义控件然后拖曳，导入导出xml文件，自定义用户数据，组态的雏形，目前功能单一。 |
 
-##### 8.3.4.3 模块-frmdata
- ![](snap/8-3-4-3.jpg)
-
+#### 8.6.3 模块-frmdata
 | 名称 | 说明 |
 | :------ | :------ |
 | frmdata | 日志查询模块主界面，采用堆栈窗体形式，加载多个子界面包括用户日志、运行日志、报警日志等。 |
@@ -1106,9 +1066,7 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | frmdatanode | 运行日志，可以按照日期范围、控制器等查询日志，查询后的日志可打印和导出，还可以删除指定日期范围的日志以及清空所有日志。 |
 | frmdatauser | 用户日志，可以按照日期范围、操作类型等查询日志，查询后的日志可打印和导出，还可以删除指定日期范围的日志以及清空所有日志。 |
 
-##### 8.3.4.4 模块-frmmain
- ![](snap/8-3-4-4.jpg)
-
+#### 8.6.4 模块-frmmain
 | 名称 | 说明 |
 | :------ | :------ |
 | frmmain | 系统主界面，采用堆栈窗体，加载各个子模块。 |
@@ -1116,17 +1074,13 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 | frmtimecpu | 时间和CPU内存模块，一般放在系统的右上角。 |
 
 
-##### 8.3.4.5 模块-frmother
- ![](snap/8-3-4-5.jpg)	
-
+#### 8.6.5 模块-frmother
 | 名称 | 说明 |
 | :------ | :------ |
 | frmdevicecontrol | 设备回控模块，目前就显示具体的探测器信息，后期按照用户需求定制。 |
 | frmdevicenode | 设备面板模块，同时包含了多种面板样式比如普通样式、仪表样式，可以在系统设置中动态切换并立即应用，每个探测器在设备监控界面中都占用这样一个面板，显示具体的信息，包括实时更新值。 |
 
-##### 8.3.4.6 模块-frmview
- ![](snap/8-3-4-6.jpg)
-
+#### 8.6.6 模块-frmview
 | 名称 | 说明 |
 | :------ | :------ |
 | frmview | 系统视图主界面，采用堆栈窗体，加载各个子模块。 |
@@ -1297,11 +1251,12 @@ void DbHelper::getDbDefaultInfo(const QString &dbType, QString &hostPort,
 - 设备模拟工具中的设备地址，填0表示自动处理，也就是收到什么地址就应答什么地址。
 - 设备模拟-Com中，需要填写对应的串口号和波特率，再单击打开串口。
 - 设备模拟-Tcp中，需要填写对应的监听端口，选择数据模式，如果是rtu over tcp则选择Rtu模式，否则选择Net模式。
+- 物联网组件使用在线文档 [http://www.qtcdev.com/iottool/](http://www.qtcdev.com/iottool/)
 
 ### 10.2 modbus仿真
  ![](snap/10-2-1.jpg)
 
-作为国际知名的modbus模拟仿真工具Modbus Slave，本系统也提供了对应的数据配置文件iotsystem.mbs，在db目录下，对应添加FC-1003-8控制器。两边的通信方式必须一致，比如软件上设置的串口则两边都是串口。具体Modbus Slave工具详细使用可以自行搜索，比如这篇文章 [https://blog.csdn.net/xuw_xy/article/details/81166305](https://blog.csdn.net/xuw_xy/article/details/81166305) 。
+作为国际知名的modbus模拟仿真工具Modbus Slave，本系统也提供了对应的数据配置文件iotsystem.mbs，在data目录下，对应添加FC-1003-8控制器。两边的通信方式必须一致，比如软件上设置的串口则两边都是串口。具体Modbus Slave工具详细使用可以自行搜索，比如这篇文章 [https://blog.csdn.net/xuw_xy/article/details/81166305](https://blog.csdn.net/xuw_xy/article/details/81166305) 。
 
 ### 10.3 邮件转发设置
  ![](snap/10-3-1.jpg)
